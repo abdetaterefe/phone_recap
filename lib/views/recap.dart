@@ -15,11 +15,15 @@ class _RecapScreenState extends State<RecapScreen> {
   int nowYear = DateTime.now().year;
   int nowMonth = DateTime.now().month;
   int nowDay = DateTime.now().day;
+  int nowHour = DateTime.now().hour;
+  int nowMinute = DateTime.now().minute;
+  int nowSecond = DateTime.now().second;
   bool loading = true;
 
   Future<void> readCallLog() async {
     var thisMonthStartingDate = DateTime(nowYear, nowMonth, 1);
-    var thisMonthEndingDate = DateTime(nowYear, nowMonth, nowDay);
+    var thisMonthEndingDate =
+        DateTime(nowYear, nowMonth, nowDay, nowHour, nowMinute, nowSecond);
     final Iterable<CallLogEntry> result = await CallLog.query(
       dateFrom: thisMonthStartingDate.millisecondsSinceEpoch,
       dateTo: thisMonthEndingDate.millisecondsSinceEpoch,
