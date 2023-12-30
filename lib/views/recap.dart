@@ -35,6 +35,25 @@ class _RecapScreenState extends State<RecapScreen> {
     });
   }
 
+  int totalTime() {
+    int totalTime = 0;
+    for (var i = 0; i < _callLogEntries.length; i++) {
+      totalTime += _callLogEntries.elementAt(i).duration!;
+    }
+    return totalTime;
+  }
+
+  CallLogEntry mostTalkedToPerson() {
+    CallLogEntry mostTalkedToPerson = _callLogEntries.elementAt(0);
+    for (var i = 0; i < _callLogEntries.length; i++) {
+      if (mostTalkedToPerson.duration! <
+          _callLogEntries.elementAt(i).duration!) {
+        mostTalkedToPerson = _callLogEntries.elementAt(i);
+      }
+    }
+    return mostTalkedToPerson;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -44,65 +63,58 @@ class _RecapScreenState extends State<RecapScreen> {
   @override
   Widget build(BuildContext context) {
     const TextStyle mono = TextStyle(fontFamily: 'monospace');
+    var totalTimeInMinutes = totalTime() / 60;
+    var totalTimeInHours = totalTime() / 60 / 60;
     return Scaffold(
-      appBar: AppBar(title: const Text('Phone Recap')),
+      appBar: AppBar(title: const Text('Monlthy Phone Recap')),
       body: loading
           ? const Center(
               child: CircularProgressIndicator(),
             )
           : Column(
               children: [
+                Text("Total Time In Minutes: $totalTimeInMinutes"),
+                Text("Total Time In Hours: $totalTimeInHours"),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  child: ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (ctx, i) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            const Divider(),
-                            Text(
-                              'F. NUMBER  : ${_callLogEntries.elementAt(i).formattedNumber}',
-                              style: mono,
-                            ),
-                            Text(
-                              'NUMBER     : ${_callLogEntries.elementAt(i).number}',
-                              style: mono,
-                            ),
-                            Text(
-                                'NAME       : ${_callLogEntries.elementAt(i).name}',
-                                style: mono),
-                            Text(
-                              'TYPE       : ${_callLogEntries.elementAt(i).callType}',
-                              style: mono,
-                            ),
-                            Text(
-                              'DATE       : ${DateTime.fromMillisecondsSinceEpoch(_callLogEntries.elementAt(i).timestamp!)}',
-                              style: mono,
-                            ),
-                            Text(
-                              'DURATION   : ${_callLogEntries.elementAt(i).duration}',
-                              style: mono,
-                            ),
-                            Text(
-                              'SIM NAME   : ${_callLogEntries.elementAt(i).simDisplayName}',
-                              style: mono,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (ctx, i) {
-                      return const SizedBox(
-                        height: 10,
-                      );
-                    },
-                    itemCount: _callLogEntries.length,
-                  ),
-                ),
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          const Divider(),
+                          Text(
+                            'F. NUMBER  : ${mostTalkedToPerson().formattedNumber}',
+                            style: mono,
+                          ),
+                          Text(
+                            'NUMBER     : ${mostTalkedToPerson().number}',
+                            style: mono,
+                          ),
+                          Text(
+                            'NAME       : ${mostTalkedToPerson().name}',
+                            style: mono,
+                          ),
+                          Text(
+                            'TYPE       : ${mostTalkedToPerson().callType}',
+                            style: mono,
+                          ),
+                          Text(
+                            'DATE       : ${DateTime.fromMillisecondsSinceEpoch(mostTalkedToPerson().timestamp!)}',
+                            style: mono,
+                          ),
+                          Text(
+                            'DURATION   : ${mostTalkedToPerson().duration}',
+                            style: mono,
+                          ),
+                          Text(
+                            'SIM NAME   : ${mostTalkedToPerson().simDisplayName}',
+                            style: mono,
+                          ),
+                        ],
+                      ),
+                    ))
               ],
             ),
     );
