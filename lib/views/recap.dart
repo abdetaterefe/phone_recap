@@ -65,6 +65,7 @@ class _RecapScreenState extends State<RecapScreen> {
     const TextStyle mono = TextStyle(fontFamily: 'monospace');
     var totalTimeInMinutes = totalTime() / 60;
     var totalTimeInHours = totalTime() / 60 / 60;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Monlthy Phone Recap')),
       body: loading
@@ -76,45 +77,46 @@ class _RecapScreenState extends State<RecapScreen> {
                 Text("Total Time In Minutes: $totalTimeInMinutes"),
                 Text("Total Time In Hours: $totalTimeInHours"),
                 SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          const Divider(),
-                          Text(
-                            'F. NUMBER  : ${mostTalkedToPerson().formattedNumber}',
-                            style: mono,
-                          ),
-                          Text(
-                            'NUMBER     : ${mostTalkedToPerson().number}',
-                            style: mono,
-                          ),
-                          Text(
-                            'NAME       : ${mostTalkedToPerson().name}',
-                            style: mono,
-                          ),
-                          Text(
-                            'TYPE       : ${mostTalkedToPerson().callType}',
-                            style: mono,
-                          ),
-                          Text(
-                            'DATE       : ${DateTime.fromMillisecondsSinceEpoch(mostTalkedToPerson().timestamp!)}',
-                            style: mono,
-                          ),
-                          Text(
-                            'DURATION   : ${mostTalkedToPerson().duration}',
-                            style: mono,
-                          ),
-                          Text(
-                            'SIM NAME   : ${mostTalkedToPerson().simDisplayName}',
-                            style: mono,
-                          ),
-                        ],
-                      ),
-                    ))
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        const Divider(),
+                        Text(
+                          'F. NUMBER  : ${mostTalkedToPerson().formattedNumber}',
+                          style: mono,
+                        ),
+                        Text(
+                          'NUMBER     : ${mostTalkedToPerson().number}',
+                          style: mono,
+                        ),
+                        Text(
+                          'NAME       : ${mostTalkedToPerson().name}',
+                          style: mono,
+                        ),
+                        Text(
+                          'TYPE       : ${mostTalkedToPerson().callType}',
+                          style: mono,
+                        ),
+                        Text(
+                          'DATE       : ${DateTime.fromMillisecondsSinceEpoch(mostTalkedToPerson().timestamp!)}',
+                          style: mono,
+                        ),
+                        Text(
+                          'DURATION   : ${mostTalkedToPerson().duration}',
+                          style: mono,
+                        ),
+                        Text(
+                          'SIM NAME   : ${mostTalkedToPerson().simDisplayName}',
+                          style: mono,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
     );

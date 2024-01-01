@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phone_recap/views/monthly_recap.dart';
 import 'package:phone_recap/views/recap.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,9 +38,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RecapScreen(
-                        recap: "monthly",
-                      ),
+                      builder: (context) => const MonthlyRecap(),
                     ),
                   );
                 },
@@ -52,9 +51,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RecapScreen(
-                        recap: "yearly",
-                      ),
+                      builder: (context) => const MonthlyRecap(),
                     ),
                   );
                 },
