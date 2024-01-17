@@ -4,7 +4,9 @@ import 'package:phone_recap/ui/percent_bar.dart';
 import 'package:phone_recap/ui/total_time.dart';
 
 class MonthlyRecap extends StatefulWidget {
-  const MonthlyRecap({super.key});
+  const MonthlyRecap({super.key, required this.year});
+
+  final int year;
 
   @override
   State<MonthlyRecap> createState() => _MonthlyRecapState();
@@ -46,8 +48,8 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
   }
 
   Future<void> readCallLog() async {
-    var startingDate = DateTime(2023, 1, 1);
-    var endingDate = DateTime(2024, 1, 1);
+    var startingDate = DateTime(widget.year, 1, 1);
+    var endingDate = DateTime(widget.year + 1, 1, 1);
     final Iterable<CallLogEntry> result = await CallLog.query(
       dateFrom: startingDate.millisecondsSinceEpoch,
       dateTo: endingDate.millisecondsSinceEpoch,
