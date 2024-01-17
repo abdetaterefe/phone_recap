@@ -1,45 +1,59 @@
+import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
 
-class PercentBar extends StatelessWidget {
-  const PercentBar({super.key, required this.incoming, required this.outgoing});
+class PercentBar extends StatefulWidget {
+  const PercentBar({
+    Key? key,
+    required this.index,
+    required this.monthlyCallLogEntries,
+  }) : super(key: key);
 
-  final int incoming;
-  final int outgoing;
+  final int index;
+  final Map<String, List<CallLogEntry>> monthlyCallLogEntries;
 
-  List<int> calculateRatio() {
-    // Calculate the ratio
-    double incomingratio = (incoming / (incoming + outgoing)) * 8;
-    double outgoingratio = (outgoing / (incoming + outgoing)) * 8;
+  @override
+  State<PercentBar> createState() => _PercentBarState();
+}
 
-    // Return the result as a list
-    return [incomingratio.round(), outgoingratio.round()];
+class _PercentBarState extends State<PercentBar> {
+  int getTotalTime(String month, int callTypeIndex) {
+    int totalTime = 0;
+    final logEntries = widget.monthlyCallLogEntries[month];
+    if (logEntries != null) {
+      for (final entry in logEntries) {
+        if (entry.callType?.index == callTypeIndex) {
+          totalTime += entry.duration ?? 0;
+        }
+      }
+    }
+    return totalTime;
   }
 
   String formatSeconds(int seconds) {
-    if (seconds < 0) {
-      return "Invalid input";
-    }
-
-    int hours = seconds ~/ 3600;
-    int remainingMinutes = (seconds % 3600) ~/ 60;
-    int remainingSeconds = seconds % 60;
+    final hours = seconds ~/ 3600;
+    final remainingMinutes = (seconds % 3600) ~/ 60;
 
     if (hours == 0) {
-      if (remainingMinutes == 0) {
-        return "$remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
-      } else if (remainingSeconds == 0) {
-        return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
-      } else {
-        return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'} and $remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
-      }
+      return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     } else {
-      return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}, and $remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
+      return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<int> result = calculateRatio();
+    final month = widget.monthlyCallLogEntries.keys.elementAt(widget.index);
+    final incoming = getTotalTime(month, 0);
+    final outgoing = getTotalTime(month, 1);
+
+    List<int> calculateRatio() {
+      final incomingRatio = (incoming / (incoming + outgoing)) * 8;
+      final outgoingRatio = (outgoing / (incoming + outgoing)) * 8;
+
+      return [incomingRatio.round(), outgoingRatio.round()];
+    }
+
+    final result = calculateRatio();
     return Column(
       children: [
         Row(
@@ -53,7 +67,7 @@ class PercentBar extends StatelessWidget {
                   side: BorderSide(
                     color: Theme.of(context).colorScheme.outline,
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                 ),
               ),
             ),
@@ -65,7 +79,7 @@ class PercentBar extends StatelessWidget {
                   side: BorderSide(
                     color: Theme.of(context).colorScheme.outline,
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
                 ),
               ),
             ),

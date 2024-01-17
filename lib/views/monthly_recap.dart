@@ -1,6 +1,7 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_recap/ui/percent_bar.dart';
+import 'package:phone_recap/ui/total_time.dart';
 
 class MonthlyRecap extends StatefulWidget {
   const MonthlyRecap({super.key});
@@ -29,61 +30,6 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
       'December'
     ];
     return monthNames[dateTime.month - 1];
-  }
-
-  int totalTime(String month) {
-    int totalTime = 0;
-    int? logEntryLength = _monthlyCallLogEntries[month]?.length;
-    for (var i = 0; i < logEntryLength!; i++) {
-      totalTime += _monthlyCallLogEntries[month]!.elementAt(i).duration!;
-    }
-    return totalTime;
-  }
-
-  int incomingTotalTime(String month) {
-    int totalIncomingTime = 0;
-    int? logEntryLength = _monthlyCallLogEntries[month]?.length;
-    for (var i = 0; i < logEntryLength!; i++) {
-      if (_monthlyCallLogEntries[month]!.elementAt(i).callType?.index == 0) {
-        totalIncomingTime +=
-            _monthlyCallLogEntries[month]!.elementAt(i).duration!;
-      }
-    }
-    return totalIncomingTime;
-  }
-
-  int outgoingTotalTime(String month) {
-    int totalIncomingTime = 0;
-    int? logEntryLength = _monthlyCallLogEntries[month]?.length;
-    for (var i = 0; i < logEntryLength!; i++) {
-      if (_monthlyCallLogEntries[month]!.elementAt(i).callType?.index == 1) {
-        totalIncomingTime +=
-            _monthlyCallLogEntries[month]!.elementAt(i).duration!;
-      }
-    }
-    return totalIncomingTime;
-  }
-
-  String formatSeconds(int seconds) {
-    if (seconds < 0) {
-      return "Invalid input";
-    }
-
-    int hours = seconds ~/ 3600;
-    int remainingMinutes = (seconds % 3600) ~/ 60;
-    int remainingSeconds = seconds % 60;
-
-    if (hours == 0) {
-      if (remainingMinutes == 0) {
-        return "$remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
-      } else if (remainingSeconds == 0) {
-        return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
-      } else {
-        return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'} and $remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
-      }
-    } else {
-      return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}, and $remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
-    }
   }
 
   CallLogEntry mostTalkedToPerson(String month) {
@@ -168,32 +114,13 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
-                                Row(
-                                  children: [
-                                    const Icon(Icons.phone_in_talk),
-                                    const Text(
-                                      "Total time: ",
-                                    ),
-                                    Text(
-                                      formatSeconds(
-                                        totalTime(
-                                          _monthlyCallLogEntries.keys
-                                              .elementAt(i),
-                                        ),
-                                      ),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                                TotalTime(
+                                  monthlyCallLogEntries: _monthlyCallLogEntries,
+                                  index: i,
                                 ),
                                 PercentBar(
-                                  incoming: incomingTotalTime(
-                                    _monthlyCallLogEntries.keys.elementAt(i),
-                                  ),
-                                  outgoing: outgoingTotalTime(
-                                    _monthlyCallLogEntries.keys.elementAt(i),
-                                  ),
+                                  monthlyCallLogEntries: _monthlyCallLogEntries,
+                                  index: i,
                                 ),
                                 const Divider(),
                               ],
@@ -203,21 +130,6 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
                       ),
                     ),
                   );
-                  // ListTile(
-                  //   title:
-                  //   subtitle: Text(
-                  //       "Total time: ${formatSeconds(totalTime(_monthlyCallLogEntries.keys.elementAt(i)))}"),
-                  //   trailing: Column(
-                  //     children: [
-                  //       Text(
-                  //         "Most talked to person: ${mostTalkedToPerson(_monthlyCallLogEntries.keys.elementAt(i)).name}",
-                  //       ),
-                  //       Text(
-                  //         "Total Time: ${formatSeconds(mostTalkedToPerson(_monthlyCallLogEntries.keys.elementAt(i)).duration!)}",
-                  //       ),
-                  //     ],
-                  //   ),
-                  // );
                 },
                 separatorBuilder: (context, i) {
                   return const SizedBox(
