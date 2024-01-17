@@ -29,6 +29,19 @@ class _PercentBarState extends State<PercentBar> {
     return totalTime;
   }
 
+  int getTotalCount(String month, int callTypeIndex) {
+    int totalCount = 0;
+    final logEntries = widget.monthlyCallLogEntries[month];
+    if (logEntries != null) {
+      for (final entry in logEntries) {
+        if (entry.callType?.index == callTypeIndex) {
+          totalCount += 1;
+        }
+      }
+    }
+    return totalCount;
+  }
+
   String formatSeconds(int seconds) {
     final hours = seconds ~/ 3600;
     final remainingMinutes = (seconds % 3600) ~/ 60;
@@ -85,11 +98,31 @@ class _PercentBarState extends State<PercentBar> {
             ),
           ],
         ),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("Incoming Calls"),
-            Text("Outgoing Calls"),
+            Row(
+              children: [
+                const Text("Incoming Calls: "),
+                Text(
+                  getTotalCount(month, 0).toString(),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                const Text("Outgoing Calls: "),
+                Text(
+                  getTotalCount(month, 1).toString(),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
         Row(
