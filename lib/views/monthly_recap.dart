@@ -4,7 +4,7 @@ import 'package:phone_recap/ui/percent_bar.dart';
 import 'package:phone_recap/ui/total_time.dart';
 
 class MonthlyRecap extends StatefulWidget {
-  const MonthlyRecap({super.key, required this.year});
+  const MonthlyRecap({Key? key, required this.year}) : super(key: key);
 
   final int year;
 
@@ -16,6 +16,7 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
   Map<String, List<CallLogEntry>> _monthlyCallLogEntries = {};
 
   bool loading = true;
+
   String _getMonthName(DateTime dateTime) {
     final monthNames = [
       'January',
@@ -88,7 +89,7 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
           : SizedBox(
               height: MediaQuery.of(context).size.height,
               child: ListView.separated(
-                itemBuilder: (context, i) {
+                itemBuilder: (context, index) {
                   return Card(
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -104,7 +105,7 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
                         children: [
                           ListTile(
                             title: Text(
-                              _monthlyCallLogEntries.keys.elementAt(i),
+                              _monthlyCallLogEntries.keys.elementAt(index),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 25,
@@ -118,11 +119,11 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
                               children: [
                                 TotalTime(
                                   monthlyCallLogEntries: _monthlyCallLogEntries,
-                                  index: i,
+                                  index: index,
                                 ),
                                 PercentBar(
                                   monthlyCallLogEntries: _monthlyCallLogEntries,
-                                  index: i,
+                                  index: index,
                                 ),
                                 const Divider(),
                               ],
@@ -133,7 +134,7 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
                     ),
                   );
                 },
-                separatorBuilder: (context, i) {
+                separatorBuilder: (context, index) {
                   return const SizedBox(
                     height: 10,
                   );
