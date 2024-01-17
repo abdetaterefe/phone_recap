@@ -1,6 +1,6 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_recap/ui/percent_bar.dart';
+import 'package:phone_recap/ui/incoming_outgoing_calls.dart';
 import 'package:phone_recap/ui/total_time.dart';
 
 class MonthlyRecap extends StatefulWidget {
@@ -121,7 +121,7 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
                                   monthlyCallLogEntries: _monthlyCallLogEntries,
                                   index: index,
                                 ),
-                                PercentBar(
+                                IncomingOutgoingCalls(
                                   monthlyCallLogEntries: _monthlyCallLogEntries,
                                   index: index,
                                 ),

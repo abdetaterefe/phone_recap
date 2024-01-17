@@ -1,8 +1,8 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
 
-class PercentBar extends StatefulWidget {
-  const PercentBar({
+class IncomingOutgoingCalls extends StatefulWidget {
+  const IncomingOutgoingCalls({
     Key? key,
     required this.index,
     required this.monthlyCallLogEntries,
@@ -12,10 +12,10 @@ class PercentBar extends StatefulWidget {
   final Map<String, List<CallLogEntry>> monthlyCallLogEntries;
 
   @override
-  State<PercentBar> createState() => _PercentBarState();
+  State<IncomingOutgoingCalls> createState() => _IncomingOutgoingCallsState();
 }
 
-class _PercentBarState extends State<PercentBar> {
+class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
   int getTotalTime(String month, int callTypeIndex) {
     int totalTime = 0;
     final logEntries = widget.monthlyCallLogEntries[month];
