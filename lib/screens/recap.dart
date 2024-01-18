@@ -1,6 +1,5 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_recap/ui/busiest_day.dart';
 import 'package:phone_recap/ui/incoming_outgoing_calls.dart';
 import 'package:phone_recap/ui/total_time.dart';
 
@@ -92,58 +91,34 @@ class _RecapScreenState extends State<RecapScreen> {
               child: ListView.separated(
                 itemBuilder: (context, index) {
                   return Card(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    ),
-                    child: SizedBox(
-                      width: 300,
-                      height: 300,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              _monthlyCallLogEntries.keys.elementAt(index),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            _monthlyCallLogEntries.keys.elementAt(index),
+                            style: const TextStyle(
+                              fontSize: 25,
+                            ),
+                          ),
+                          subtitle: TotalTime(
+                            monthlyCallLogEntries: _monthlyCallLogEntries,
+                            index: index,
+                          ),
+                        ),
+                        const Divider(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              IncomingOutgoingCalls(
+                                monthlyCallLogEntries: _monthlyCallLogEntries,
+                                index: index,
                               ),
-                            ),
+                              const Divider(),
+                            ],
                           ),
-                          const Divider(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                TotalTime(
-                                  monthlyCallLogEntries: _monthlyCallLogEntries,
-                                  index: index,
-                                ),
-                                IncomingOutgoingCalls(
-                                  monthlyCallLogEntries: _monthlyCallLogEntries,
-                                  index: index,
-                                ),
-                                const Divider(),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                BusiestDay(
-                                  index: index,
-                                  monthlyCallLogEntries: _monthlyCallLogEntries,
-                                ),
-                                const Divider()
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },

@@ -72,29 +72,31 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 20,
+            Container(
+              height: 10,
+              decoration: const BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(0),
+                  bottomLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(0),
+                ),
+              ),
               width: MediaQuery.of(context).size.width * result[0] * .1,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
-                ),
-              ),
             ),
-            SizedBox(
-              height: 20,
-              width: MediaQuery.of(context).size.width * result[1] * .1,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+            Container(
+              height: 10,
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(0),
+                  topRight: Radius.circular(8),
+                  bottomLeft: Radius.circular(0),
+                  bottomRight: Radius.circular(8),
                 ),
               ),
+              width: MediaQuery.of(context).size.width * result[1] * .1,
             ),
           ],
         ),

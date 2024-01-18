@@ -47,7 +47,6 @@ class _TotalTimeState extends State<TotalTime> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.phone_in_talk),
         const Text("Total time: "),
         Text(
           formatSeconds(
