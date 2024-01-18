@@ -53,18 +53,44 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: ListView.separated(
                 itemBuilder: (context, index) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RecapScreen(
-                            year: years[index],
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            title: Text(
+                              years[index].toString(),
+                              style: const TextStyle(
+                                fontSize: 25,
+                              ),
+                            ),
+                            subtitle: const Text(
+                              'View recap of how you have talked to your friends over the phone this year.',
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: Text(years[index].toString()),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              FilledButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RecapScreen(
+                                        year: years[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: const Text("View Recap"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
