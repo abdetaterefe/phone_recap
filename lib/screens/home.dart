@@ -1,15 +1,15 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
-import 'package:phone_recap/views/monthly_recap.dart';
+import 'package:phone_recap/screens/recap.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   List<int> years = [];
   bool loading = true;
 
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MonthlyRecap(
+                          builder: (context) => RecapScreen(
                             year: years[index],
                           ),
                         ),

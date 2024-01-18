@@ -1,18 +1,19 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
+import 'package:phone_recap/ui/busiest_day.dart';
 import 'package:phone_recap/ui/incoming_outgoing_calls.dart';
 import 'package:phone_recap/ui/total_time.dart';
 
-class MonthlyRecap extends StatefulWidget {
-  const MonthlyRecap({Key? key, required this.year}) : super(key: key);
+class RecapScreen extends StatefulWidget {
+  const RecapScreen({Key? key, required this.year}) : super(key: key);
 
   final int year;
 
   @override
-  State<MonthlyRecap> createState() => _MonthlyRecapState();
+  State<RecapScreen> createState() => _RecapScreenState();
 }
 
-class _MonthlyRecapState extends State<MonthlyRecap> {
+class _RecapScreenState extends State<RecapScreen> {
   Map<String, List<CallLogEntry>> _monthlyCallLogEntries = {};
 
   bool loading = true;
@@ -126,6 +127,18 @@ class _MonthlyRecapState extends State<MonthlyRecap> {
                                   index: index,
                                 ),
                                 const Divider(),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                BusiestDay(
+                                  index: index,
+                                  monthlyCallLogEntries: _monthlyCallLogEntries,
+                                ),
+                                const Divider()
                               ],
                             ),
                           ),

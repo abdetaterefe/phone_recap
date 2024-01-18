@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phone_recap/views/home.dart';
+import 'package:phone_recap/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const HomeScreen(),
     );
   }
 }
