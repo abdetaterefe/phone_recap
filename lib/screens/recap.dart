@@ -1,5 +1,6 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
+import 'package:phone_recap/ui/busiest_day.dart';
 import 'package:phone_recap/ui/incoming_outgoing_calls.dart';
 import 'package:phone_recap/ui/total_time.dart';
 
@@ -90,19 +91,19 @@ class _RecapScreenState extends State<RecapScreen> {
               height: MediaQuery.of(context).size.height,
               child: ListView.separated(
                 itemBuilder: (context, index) {
+                  String month = _monthlyCallLogEntries.keys.elementAt(index);
                   return Card(
                     child: Column(
                       children: [
                         ListTile(
                           title: Text(
-                            _monthlyCallLogEntries.keys.elementAt(index),
+                            month,
                             style: const TextStyle(
                               fontSize: 25,
                             ),
                           ),
                           subtitle: TotalTime(
-                            monthlyCallLogEntries: _monthlyCallLogEntries,
-                            index: index,
+                            callLogEntries: _monthlyCallLogEntries[month]!,
                           ),
                         ),
                         const Divider(),
@@ -111,10 +112,12 @@ class _RecapScreenState extends State<RecapScreen> {
                           child: Column(
                             children: [
                               IncomingOutgoingCalls(
-                                monthlyCallLogEntries: _monthlyCallLogEntries,
-                                index: index,
+                                callLogEntries: _monthlyCallLogEntries[month]!,
                               ),
                               const Divider(),
+                              BusiestDay(
+                                callLogEntries: _monthlyCallLogEntries[month]!,
+                              )
                             ],
                           ),
                         ),

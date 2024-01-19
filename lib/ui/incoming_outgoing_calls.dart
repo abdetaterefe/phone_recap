@@ -4,39 +4,33 @@ import 'package:flutter/material.dart';
 class IncomingOutgoingCalls extends StatefulWidget {
   const IncomingOutgoingCalls({
     Key? key,
-    required this.index,
-    required this.monthlyCallLogEntries,
+    required this.callLogEntries,
   }) : super(key: key);
 
-  final int index;
-  final Map<String, List<CallLogEntry>> monthlyCallLogEntries;
+  final List<CallLogEntry> callLogEntries;
 
   @override
   State<IncomingOutgoingCalls> createState() => _IncomingOutgoingCallsState();
 }
 
 class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
-  int getTotalTime(String month, int callTypeIndex) {
+  int getTotalTime(int callTypeIndex) {
     int totalTime = 0;
-    final logEntries = widget.monthlyCallLogEntries[month];
-    if (logEntries != null) {
-      for (final entry in logEntries) {
-        if (entry.callType?.index == callTypeIndex) {
-          totalTime += entry.duration ?? 0;
-        }
+    final logEntries = widget.callLogEntries;
+    for (final entry in logEntries) {
+      if (entry.callType?.index == callTypeIndex) {
+        totalTime += entry.duration ?? 0;
       }
     }
     return totalTime;
   }
 
-  int getTotalCount(String month, int callTypeIndex) {
+  int getTotalCount(int callTypeIndex) {
     int totalCount = 0;
-    final logEntries = widget.monthlyCallLogEntries[month];
-    if (logEntries != null) {
-      for (final entry in logEntries) {
-        if (entry.callType?.index == callTypeIndex) {
-          totalCount += 1;
-        }
+    final logEntries = widget.callLogEntries;
+    for (final entry in logEntries) {
+      if (entry.callType?.index == callTypeIndex) {
+        totalCount += 1;
       }
     }
     return totalCount;
@@ -55,9 +49,8 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
 
   @override
   Widget build(BuildContext context) {
-    final month = widget.monthlyCallLogEntries.keys.elementAt(widget.index);
-    final incoming = getTotalTime(month, 0);
-    final outgoing = getTotalTime(month, 1);
+    final incoming = getTotalTime(0);
+    final outgoing = getTotalTime(1);
 
     List<int> calculateRatio() {
       final incomingRatio = (incoming / (incoming + outgoing)) * 8;
@@ -75,7 +68,7 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
             Container(
               height: 10,
               decoration: const BoxDecoration(
-                color: Colors.green,
+                color: Colors.lightGreenAccent,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8),
                   topRight: Radius.circular(0),
@@ -88,7 +81,7 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
             Container(
               height: 10,
               decoration: const BoxDecoration(
-                color: Colors.red,
+                color: Colors.greenAccent,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(0),
                   topRight: Radius.circular(8),
@@ -107,7 +100,7 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
               children: [
                 const Text("Incoming Calls: "),
                 Text(
-                  getTotalCount(month, 0).toString(),
+                  getTotalCount(0).toString(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -118,7 +111,7 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
               children: [
                 const Text("Outgoing Calls: "),
                 Text(
-                  getTotalCount(month, 1).toString(),
+                  getTotalCount(1).toString(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

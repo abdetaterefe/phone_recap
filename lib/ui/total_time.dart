@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 class TotalTime extends StatefulWidget {
   const TotalTime({
     Key? key,
-    required this.monthlyCallLogEntries,
-    required this.index,
+    required this.callLogEntries,
   }) : super(key: key);
 
-  final int index;
-  final Map<String, List<CallLogEntry>> monthlyCallLogEntries;
+  final List<CallLogEntry> callLogEntries;
 
   @override
   State<TotalTime> createState() => _TotalTimeState();
@@ -34,11 +32,11 @@ class _TotalTimeState extends State<TotalTime> {
     }
   }
 
-  int totalTime(String month) {
+  int totalTime() {
     int totalTime = 0;
-    int? logEntryLength = widget.monthlyCallLogEntries[month]?.length;
-    for (var i = 0; i < logEntryLength!; i++) {
-      totalTime += widget.monthlyCallLogEntries[month]!.elementAt(i).duration!;
+    int? logEntryLength = widget.callLogEntries.length;
+    for (var i = 0; i < logEntryLength; i++) {
+      totalTime += widget.callLogEntries.elementAt(i).duration!;
     }
     return totalTime;
   }
@@ -49,11 +47,7 @@ class _TotalTimeState extends State<TotalTime> {
       children: [
         const Text("Total time: "),
         Text(
-          formatSeconds(
-            totalTime(
-              widget.monthlyCallLogEntries.keys.elementAt(widget.index),
-            ),
-          ),
+          formatSeconds(totalTime()),
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
