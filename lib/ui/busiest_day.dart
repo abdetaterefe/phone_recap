@@ -153,7 +153,6 @@ class _BusiestDayState extends State<BusiestDay> {
                   ),
                 ),
                 SizedBox(
-                  // width: MediaQuery.of(context).size.width,
                   height: 20,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -196,34 +195,7 @@ class _BusiestDayState extends State<BusiestDay> {
                   mostDayOfTheTalkedDuration.keys.elementAt(0)]!),
             ),
             trailing: Text(
-              mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)]
-                  .toString(),
-            ),
-          ),
-          ListTile(
-            title: Text(
-              mostDayOfTheTalked.keys.elementAt(1),
-            ),
-            subtitle: Text(
-              formatSeconds(mostDayOfTheTalkedDuration[
-                  mostDayOfTheTalkedDuration.keys.elementAt(1)]!),
-            ),
-            trailing: Text(
-              mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(1)]
-                  .toString(),
-            ),
-          ),
-          ListTile(
-            title: Text(
-              mostDayOfTheTalked.keys.elementAt(2),
-            ),
-            subtitle: Text(
-              formatSeconds(mostDayOfTheTalkedDuration[
-                  mostDayOfTheTalkedDuration.keys.elementAt(2)]!),
-            ),
-            trailing: Text(
-              mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(2)]
-                  .toString(),
+              "${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)].toString()} Calls",
             ),
           ),
         ],

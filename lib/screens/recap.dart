@@ -2,6 +2,7 @@ import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
 import 'package:phone_recap/ui/busiest_day.dart';
 import 'package:phone_recap/ui/incoming_outgoing_calls.dart';
+import 'package:phone_recap/ui/most_talked_person.dart';
 import 'package:phone_recap/ui/total_time.dart';
 
 class RecapScreen extends StatefulWidget {
@@ -34,19 +35,6 @@ class _RecapScreenState extends State<RecapScreen> {
       'December'
     ];
     return monthNames[dateTime.month - 1];
-  }
-
-  CallLogEntry mostTalkedToPerson(String month) {
-    CallLogEntry mostTalkedToPerson =
-        _monthlyCallLogEntries[month]!.elementAt(0);
-    int? logEntryLength = _monthlyCallLogEntries[month]?.length;
-    for (var i = 0; i < logEntryLength!; i++) {
-      if (mostTalkedToPerson.duration! <
-          _monthlyCallLogEntries[month]!.elementAt(i).duration!) {
-        mostTalkedToPerson = _monthlyCallLogEntries[month]!.elementAt(i);
-      }
-    }
-    return mostTalkedToPerson;
   }
 
   Future<void> readCallLog() async {
@@ -114,6 +102,10 @@ class _RecapScreenState extends State<RecapScreen> {
                         const Divider(),
                         BusiestDay(
                           month: month,
+                          callLogEntries: _monthlyCallLogEntries[month]!,
+                        ),
+                        const Divider(),
+                        MostTalkedPerson(
                           callLogEntries: _monthlyCallLogEntries[month]!,
                         )
                       ],
