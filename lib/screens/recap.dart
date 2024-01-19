@@ -113,6 +113,7 @@ class _RecapScreenState extends State<RecapScreen> {
                         ),
                         const Divider(),
                         BusiestDay(
+                          month: month,
                           callLogEntries: _monthlyCallLogEntries[month]!,
                         )
                       ],

@@ -5,8 +5,10 @@ class BusiestDay extends StatefulWidget {
   const BusiestDay({
     Key? key,
     required this.callLogEntries,
+    required this.month,
   }) : super(key: key);
 
+  final String month;
   final List<CallLogEntry> callLogEntries;
 
   @override
@@ -124,26 +126,67 @@ class _BusiestDayState extends State<BusiestDay> {
             runSpacing: 4.0,
             children: List.generate(
               mostTalkedDates.length,
-              (index) => Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.green[getMostTalkedGraphColors()[index]],
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Center(
-                  child: Text(
-                    mostTalkedDates[mostTalkedDates.keys.elementAt(index)]
-                        .toString(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+              (index) => Tooltip(
+                triggerMode: TooltipTriggerMode.tap,
+                message:
+                    "${widget.month}: ${mostTalkedDates.keys.elementAt(index)}",
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.green[getMostTalkedGraphColors()[index]],
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text(
+                  "Less",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  // width: MediaQuery.of(context).size.width,
+                  height: 20,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      final value = index == 0 ? 50 : index * 100;
+                      return Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: Colors.green[value],
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        width: 4,
+                      );
+                    },
+                  ),
+                ),
+                const Text(
+                  "More",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ],
+            ),
+          ),
+          const Divider(),
           ListTile(
             title: Text(
               mostDayOfTheTalked.keys.elementAt(0),
