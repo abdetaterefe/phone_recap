@@ -66,32 +66,35 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 10,
+              height: 20,
               decoration: const BoxDecoration(
                 color: Colors.lightGreenAccent,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
+                  topLeft: Radius.circular(4),
                   topRight: Radius.circular(0),
-                  bottomLeft: Radius.circular(8),
+                  bottomLeft: Radius.circular(4),
                   bottomRight: Radius.circular(0),
                 ),
               ),
               width: MediaQuery.of(context).size.width * result[0] * .1,
             ),
             Container(
-              height: 10,
+              height: 20,
               decoration: const BoxDecoration(
                 color: Colors.greenAccent,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(0),
-                  topRight: Radius.circular(8),
+                  topRight: Radius.circular(4),
                   bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(8),
+                  bottomRight: Radius.circular(4),
                 ),
               ),
               width: MediaQuery.of(context).size.width * result[1] * .1,
             ),
           ],
+        ),
+        const SizedBox(
+          height: 10,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -87,8 +87,9 @@ class _RecapScreenState extends State<RecapScreen> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : SizedBox(
+          : Container(
               height: MediaQuery.of(context).size.height,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: ListView.separated(
                 itemBuilder: (context, index) {
                   String month = _monthlyCallLogEntries.keys.elementAt(index);
@@ -107,20 +108,13 @@ class _RecapScreenState extends State<RecapScreen> {
                           ),
                         ),
                         const Divider(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              IncomingOutgoingCalls(
-                                callLogEntries: _monthlyCallLogEntries[month]!,
-                              ),
-                              const Divider(),
-                              BusiestDay(
-                                callLogEntries: _monthlyCallLogEntries[month]!,
-                              )
-                            ],
-                          ),
+                        IncomingOutgoingCalls(
+                          callLogEntries: _monthlyCallLogEntries[month]!,
                         ),
+                        const Divider(),
+                        BusiestDay(
+                          callLogEntries: _monthlyCallLogEntries[month]!,
+                        )
                       ],
                     ),
                   );

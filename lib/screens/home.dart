@@ -50,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ? const CircularProgressIndicator()
           : Container(
               height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: ListView.separated(
                 itemBuilder: (context, index) {
                   return Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
