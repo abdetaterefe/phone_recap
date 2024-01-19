@@ -80,7 +80,7 @@ class _RecapScreenState extends State<RecapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Monthly Recap"),
+        title: Text("${widget.year} Recap"),
       ),
       body: loading
           ? const Center(
