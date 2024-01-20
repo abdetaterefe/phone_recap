@@ -1,5 +1,6 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
+import 'package:phone_recap/screens/about.dart';
 import 'package:phone_recap/screens/recap.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,7 +46,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Phone Recap')),
+      appBar: AppBar(
+        title: const Text('Phone Recap'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AboutScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.info_outline),
+          ),
+        ],
+      ),
       body: loading
           ? const CircularProgressIndicator()
           : Container(
