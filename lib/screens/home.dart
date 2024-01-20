@@ -63,7 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: loading
-          ? const CircularProgressIndicator()
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
           : Container(
               height: MediaQuery.of(context).size.height,
               padding: const EdgeInsets.symmetric(horizontal: 8),
