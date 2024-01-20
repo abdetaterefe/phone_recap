@@ -52,6 +52,7 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
 
   Map<String, int> mostCalledPerson(int callTypeIndex) {
     Map<String, int> mostCalledPersonMap = {};
+
     for (var i = 0; i < widget.callLogEntries.length; i++) {
       CallLogEntry callLogEntry = widget.callLogEntries[i];
       String key = callLogEntry.name ?? callLogEntry.number!;
@@ -77,7 +78,7 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
         ListTile(
           title: const Text("Longest Call"),
           subtitle: Text(
-            "${longestCalledPerson().name ?? longestCalledPerson().name!}: ${longestCalledPerson().callType?.index == 0 ? "incoming" : "outgoing"}",
+            "${longestCalledPerson().name ?? longestCalledPerson().number!}: ${longestCalledPerson().callType?.index == 0 ? "incoming" : "outgoing"}",
           ),
           trailing: Text(
             formatSeconds(
