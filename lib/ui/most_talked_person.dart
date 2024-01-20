@@ -75,7 +75,7 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
     return Column(
       children: [
         ListTile(
-          title: const Text("Longest called person"),
+          title: const Text("Longest Call"),
           subtitle: Text(
             "${longestCalledPerson().name ?? longestCalledPerson().name!}: ${longestCalledPerson().callType?.index == 0 ? "incoming" : "outgoing"}",
           ),
@@ -86,7 +86,7 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
           ),
         ),
         ListTile(
-          title: const Text("Most called person"),
+          title: const Text("Most Called"),
           subtitle: Text(
             mostTalkedPerson().keys.first,
           ),
@@ -97,21 +97,21 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
           ),
         ),
         ListTile(
-          title: const Text("Most incoming called person"),
+          title: const Text("Most Incoming"),
           subtitle: Text(
             incoming.keys.first,
           ),
           trailing: Text(
-            incoming[incoming.keys.first].toString(),
+            "${incoming[incoming.keys.first].toString()} times",
           ),
         ),
         ListTile(
-          title: const Text("Most outgoing called person"),
+          title: const Text("Most Outgoing"),
           subtitle: Text(
             outgoing.keys.first,
           ),
           trailing: Text(
-            outgoing[outgoing.keys.first].toString(),
+            "${outgoing[outgoing.keys.first].toString()} times",
           ),
         )
       ],

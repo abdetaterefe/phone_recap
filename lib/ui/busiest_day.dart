@@ -188,7 +188,7 @@ class _BusiestDayState extends State<BusiestDay> {
           const Divider(),
           ListTile(
             title: Text(
-              mostDayOfTheTalked.keys.elementAt(0),
+              "Most calls were on ${mostDayOfTheTalked.keys.elementAt(0)}",
             ),
             subtitle: Text(
               formatSeconds(mostDayOfTheTalkedDuration[
