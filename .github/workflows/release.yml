@@ -34,5 +34,5 @@ jobs:
             build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
           tag_name: v${{ github.run_number }}
           name: Release ${{ github.run_number }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           body: This is the release of the APK built from commit ${{ github.sha }}.
