@@ -4,10 +4,9 @@ Phone Recap is an app that scans your call history and shows you useful stats an
 
 ## Preview
 
-| Home Screen            |  Recap Screen |
-:-------------------------:|:-------------------------:
-![photo_2024-01-20_14-15-11](https://github.com/abdetaterefe/phone_recap/assets/59355292/4fe7a692-b34a-4380-b3e3-563a2e67fabe) | ![photo_2024-01-20_14-15-14](https://github.com/abdetaterefe/phone_recap/assets/59355292/fc85bc52-1a30-42ae-8f18-0a6c4a0ee033)
-
+|                                                          Home Screen                                                           |                                                          Recap Screen                                                          |
+| :----------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------: |
+| ![photo_2024-01-20_14-15-11](https://github.com/abdetaterefe/phone_recap/assets/59355292/4fe7a692-b34a-4380-b3e3-563a2e67fabe) | ![photo_2024-01-20_14-15-14](https://github.com/abdetaterefe/phone_recap/assets/59355292/fc85bc52-1a30-42ae-8f18-0a6c4a0ee033) |
 
 ## Download
 
