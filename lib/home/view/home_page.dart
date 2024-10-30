@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_recap/about/view/about_page.dart';
 import 'package:phone_recap/home/home.dart' as home;
 import 'package:phone_recap/recap/recap.dart' as recap;
 
@@ -34,6 +35,17 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                AboutPage.route(),
+              );
+            },
+            icon: const Icon(Icons.info_outline),
+          ),
+        ],
       ),
       body: BlocBuilder<home.HomeBloc, home.HomeState>(
         builder: (context, state) {
