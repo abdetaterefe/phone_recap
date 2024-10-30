@@ -16,6 +16,7 @@ class RecapBloc extends Bloc<RecapEvent, RecapState> {
     Emitter<RecapState> emit,
   ) async {
     try {
+      emit(const RecapState());
       final startingDate = DateTime(event.year);
       final endingDate = DateTime(event.year + 1);
       final result = await CallLog.query(

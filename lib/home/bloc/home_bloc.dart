@@ -16,6 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     try {
+      emit(const HomeState());
       final result = await CallLog.query();
       if (result.isEmpty) {
         emit(
