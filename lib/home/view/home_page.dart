@@ -79,7 +79,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ),
                           subtitle: const Text(
-                            'View recap of how you have talked to your friends over the phone this year.',
+                            'View recap of this year.',
                           ),
                         ),
                         Row(

@@ -28,9 +28,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       final timestamps = result.map((e) => e.timestamp!).toList();
       final firstYear = DateTime.fromMillisecondsSinceEpoch(
-          timestamps.reduce((a, b) => a < b ? a : b)).year;
+        timestamps.reduce((a, b) => a < b ? a : b),
+      ).year;
       final lastYear = DateTime.fromMillisecondsSinceEpoch(
-          timestamps.reduce((a, b) => a > b ? a : b)).year;
+        timestamps.reduce((a, b) => a > b ? a : b),
+      ).year;
 
       final years =
           List.generate(lastYear - firstYear + 1, (i) => firstYear + i);

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class TotalTime extends StatefulWidget {
   const TotalTime({
-    Key? key,
     required this.callLogEntries,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<CallLogEntry> callLogEntries;
 
@@ -15,9 +15,9 @@ class TotalTime extends StatefulWidget {
 
 class _TotalTimeState extends State<TotalTime> {
   String formatSeconds(int seconds) {
-    int hours = seconds ~/ 3600;
-    int remainingMinutes = (seconds % 3600) ~/ 60;
-    int remainingSeconds = seconds % 60;
+    final hours = seconds ~/ 3600;
+    final remainingMinutes = (seconds % 3600) ~/ 60;
+    final remainingSeconds = seconds % 60;
 
     if (hours == 0) {
       if (remainingMinutes == 0) {
@@ -25,16 +25,18 @@ class _TotalTimeState extends State<TotalTime> {
       } else if (remainingSeconds == 0) {
         return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
       } else {
+        // ignore: lines_longer_than_80_chars
         return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'} and $remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
       }
     } else {
+      // ignore: lines_longer_than_80_chars
       return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}, and $remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
     }
   }
 
   int totalTime() {
-    int totalTime = 0;
-    int? logEntryLength = widget.callLogEntries.length;
+    var totalTime = 0;
+    final logEntryLength = widget.callLogEntries.length;
     for (var i = 0; i < logEntryLength; i++) {
       totalTime += widget.callLogEntries.elementAt(i).duration!;
     }
@@ -45,7 +47,7 @@ class _TotalTimeState extends State<TotalTime> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Text("Total time: "),
+        const Text('Total time: '),
         Text(
           formatSeconds(totalTime()),
           style: const TextStyle(

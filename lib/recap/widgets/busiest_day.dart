@@ -107,6 +107,7 @@ class _BusiestDayState extends State<BusiestDay> {
     if (hours == 0) {
       return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     } else {
+      // ignore: lines_longer_than_80_chars
       return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     }
   }
@@ -198,7 +199,8 @@ class _BusiestDayState extends State<BusiestDay> {
               ),
             ),
             trailing: Text(
-              '${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)].toString()} Calls',
+              // ignore: lines_longer_than_80_chars
+              '${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)]} Calls',
             ),
           ),
         ],

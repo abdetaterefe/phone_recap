@@ -43,6 +43,7 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
     if (hours == 0) {
       return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     } else {
+      // ignore: lines_longer_than_80_chars
       return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     }
   }
