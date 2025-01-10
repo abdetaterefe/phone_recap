@@ -9,7 +9,7 @@ environment:
 dependencies:
   bloc: ^8.1.4
   call_log: ^4.0.0
-  equatable: ^2.0.5
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
