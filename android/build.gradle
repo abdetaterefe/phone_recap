@@ -1,15 +1,3 @@
-buildscript {
-    ext.kotlin_version = '1.7.10'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
 allprojects {
     repositories {
         google()
@@ -18,6 +6,21 @@ allprojects {
 }
 
 rootProject.buildDir = '../build'
+subprojects {
+    afterEvaluate { project ->
+        // check only for "com.android.library" to not modify
+        // your "app" subproject. All plugins will have "com.android.library" plugin, and only your app "com.android.application"
+        // Change your application's namespace in main build.gradle and in main android block.
+
+        if (project.plugins.hasPlugin("com.android.library")) {
+            project.android {
+                if (namespace == null) {
+                    namespace project.group
+                }
+            }
+        }
+    }
+}
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
