@@ -29,7 +29,7 @@ jobs:
       - run: flutter pub get
       - run: flutter build apk --flavor production --target lib/main_production.dart --split-per-abi
       # - run: flutter build apk --split-per-abi
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         with:
           files: |
             build/app/outputs/flutter-apk/app-x86_64-release.apk
