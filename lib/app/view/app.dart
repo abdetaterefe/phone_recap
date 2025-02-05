@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:phone_recap/home/home.dart';
-import 'package:phone_recap/l10n/l10n.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -10,9 +9,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
@@ -21,8 +18,6 @@ class App extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
       home: const HomePage(),
     );
   }

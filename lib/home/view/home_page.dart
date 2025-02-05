@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phone_recap/about/view/about_page.dart';
+import 'package:phone_recap/settings/settings.dart' as settings;
 import 'package:phone_recap/home/home.dart' as home;
 import 'package:phone_recap/recap/recap.dart' as recap;
 
@@ -38,12 +38,9 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                AboutPage.route(),
-              );
+              Navigator.push(context, settings.SettingsPage.route());
             },
-            icon: const Icon(Icons.info_outline),
+            icon: const Icon(Icons.settings_outlined),
           ),
         ],
       ),
@@ -59,9 +56,7 @@ class _HomeViewState extends State<HomeView> {
             return ListView.separated(
               itemCount: state.yearsList.length,
               separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 10,
-                );
+                return const SizedBox(height: 10);
               },
               itemBuilder: (context, index) {
                 final year = state.yearsList[index];
@@ -74,13 +69,9 @@ class _HomeViewState extends State<HomeView> {
                         ListTile(
                           title: Text(
                             year.toString(),
-                            style: const TextStyle(
-                              fontSize: 25,
-                            ),
+                            style: const TextStyle(fontSize: 25),
                           ),
-                          subtitle: const Text(
-                            'View recap of this year.',
-                          ),
+                          subtitle: const Text('View recap of this year.'),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,

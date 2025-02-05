@@ -3,9 +3,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
-  static MaterialPageRoute<AboutPage> route() => MaterialPageRoute(
-        builder: (context) => const AboutPage(),
-      );
+  static MaterialPageRoute<AboutPage> route() =>
+      MaterialPageRoute(builder: (context) => const AboutPage());
 
   @override
   Widget build(BuildContext context) {
@@ -24,31 +23,20 @@ class _AboutViewState extends State<AboutView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('About'),
-      ),
+      appBar: AppBar(title: const Text('About')),
       body: Padding(
         padding: const EdgeInsets.only(left: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Phone Recap',
-              style: TextStyle(
-                fontSize: 32,
-              ),
-            ),
+            const Text('Phone Recap', style: TextStyle(fontSize: 32)),
             Container(
               width: MediaQuery.of(context).size.width * .4,
               height: 3,
-              decoration: const BoxDecoration(
-                color: Colors.green,
-              ),
+              decoration: const BoxDecoration(color: Colors.green),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             ListTile(
               leading: const Icon(Icons.info_outline),
               title: const Text('Made by'),
@@ -73,22 +61,6 @@ class _AboutViewState extends State<AboutView> {
                 onPressed: () async {
                   final url = Uri.parse(
                     'https://github.com/abdetaterefe/phone_recap',
-                  );
-                  if (!await launchUrl(url)) {
-                    throw Exception('Could not launch $url');
-                  }
-                },
-                icon: const Icon(Icons.open_in_browser),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.info_outline),
-              title: const Text('Version'),
-              subtitle: const Text('1.0.0'),
-              trailing: IconButton.filledTonal(
-                onPressed: () async {
-                  final url = Uri.parse(
-                    'https://github.com/abdetaterefe/phone_recap/releases',
                   );
                   if (!await launchUrl(url)) {
                     throw Exception('Could not launch $url');
