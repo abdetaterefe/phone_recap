@@ -54,6 +54,7 @@ class _HomeViewState extends State<HomeView> {
             return const Center(child: Text('No call data available.'));
           } else {
             return ListView.separated(
+              padding: const EdgeInsets.all(8),
               itemCount: state.yearsList.length,
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 10);

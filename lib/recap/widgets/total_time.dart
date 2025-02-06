@@ -43,16 +43,9 @@ class _TotalTimeState extends State<TotalTime> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Text('Total time: '),
-        Text(
-          formatSeconds(totalTime()),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
+    return Text(
+      'Total time: ${formatSeconds(totalTime())}',
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
     );
   }
 }

@@ -1,5 +1,8 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_recap/app/services/services.dart';
+import 'package:phone_recap/app/theme/theme.dart';
 
 class IncomingOutgoingCalls extends StatefulWidget {
   const IncomingOutgoingCalls({
@@ -60,6 +63,11 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
     }
 
     final result = calculateRatio();
+    final currentTheme = BlocProvider.of<ThemeBloc>(context).state.appTheme;
+    final themeData =
+        ThemeService.buildTheme(ThemeState(appTheme: currentTheme));
+    final primaryColor = themeData.colorScheme.primary;
+    final tertiaryColor = themeData.colorScheme.tertiary;
     return Column(
       children: [
         Row(
@@ -67,9 +75,9 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
           children: [
             Container(
               height: 20,
-              decoration: const BoxDecoration(
-                color: Colors.lightGreenAccent,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   bottomLeft: Radius.circular(4),
                 ),
@@ -78,9 +86,9 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
             ),
             Container(
               height: 20,
-              decoration: const BoxDecoration(
-                color: Colors.greenAccent,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: tertiaryColor,
+                borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(4),
                   bottomRight: Radius.circular(4),
                 ),

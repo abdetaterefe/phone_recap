@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phone_recap/about/about.dart';
-import 'package:phone_recap/settings/settings.dart' as settings;
+import 'package:phone_recap/app/core/constants/constants.dart';
+import 'package:phone_recap/app/theme/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -22,11 +22,7 @@ class SettingsView extends StatefulWidget {
   State<SettingsView> createState() => SettingsViewState();
 }
 
-enum ThemeModeOption { system, light, dark }
-
 class SettingsViewState extends State<SettingsView> {
-  ThemeModeOption _selectedTheme = ThemeModeOption.system;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +34,6 @@ class SettingsViewState extends State<SettingsView> {
             elevation: 2,
             child: ListTile(
               title: const Text('Theme'),
-              subtitle: Text(_selectedTheme.name),
               onTap: () {
                 _showThemeBottomSheet(context);
               },
@@ -49,12 +44,16 @@ class SettingsViewState extends State<SettingsView> {
             elevation: 2,
             child: ListTile(
               title: const Text('About'),
+              subtitle: Text("Made by Abdeta Terefe"),
               leading: const Icon(Icons.info_outline),
               trailing: IconButton.filledTonal(
                 onPressed: () async {
-                  Navigator.push(context, AboutPage.route());
+                  final url = Uri.parse('https://abdeta.dev');
+                  if (!await launchUrl(url)) {
+                    throw Exception('Could not launch $url');
+                  }
                 },
-                icon: const Icon(Icons.navigate_next),
+                icon: const Icon(Icons.open_in_browser),
               ),
             ),
           ),
@@ -100,29 +99,119 @@ class SettingsViewState extends State<SettingsView> {
   void _showThemeBottomSheet(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
-        return SizedBox(
-          height: 250,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.builder(
-              padding: EdgeInsets.all(8),
-              itemCount: settings.AppTheme.values.length,
-              itemBuilder: (context, index) {
-                final itemAppTheme = settings.AppTheme.values[index];
-                return Card(
-                  color: settings.appThemeData[itemAppTheme]?.cardColor,
-                  child: ListTile(
-                    title: Text(itemAppTheme.toString()),
-                    onTap: () {
-                      context.read<settings.SettingsBloc>().add(
-                        settings.SettingsSetAppTheme(appTheme: itemAppTheme),
-                      );
-                    },
+        final themeNameMap = <AppTheme, String>{
+          AppTheme.darkGreen: 'Dark Green',
+          AppTheme.lightGreen: 'Light Green',
+          AppTheme.darkBlue: 'Dark Blue',
+          AppTheme.lightBlue: 'Light Blue',
+          AppTheme.darkPink: 'Dark Pink',
+          AppTheme.lightPink: 'Light Pink',
+          AppTheme.darkPurple: 'Dark Purple',
+          AppTheme.lightPurple: 'Light Purple',
+        };
+
+        final primaryColorMap = <AppTheme, Color>{
+          AppTheme.darkGreen: darkGreenTheme.colorScheme.primary,
+          AppTheme.lightGreen: lightGreenTheme.colorScheme.primary,
+          AppTheme.darkBlue: darkBlueTheme.colorScheme.primary,
+          AppTheme.lightBlue: lightBlueTheme.colorScheme.primary,
+          AppTheme.darkPink: darkPinkTheme.colorScheme.primary,
+          AppTheme.lightPink: lightPinkTheme.colorScheme.primary,
+          AppTheme.darkPurple: darkPurpleTheme.colorScheme.primary,
+          AppTheme.lightPurple: lightPurpleTheme.colorScheme.primary,
+        };
+        final secondaryColorMap = <AppTheme, Color>{
+          AppTheme.darkGreen: darkGreenTheme.colorScheme.secondary,
+          AppTheme.lightGreen: lightGreenTheme.colorScheme.secondary,
+          AppTheme.darkBlue: darkBlueTheme.colorScheme.secondary,
+          AppTheme.lightBlue: lightBlueTheme.colorScheme.secondary,
+          AppTheme.darkPink: darkPinkTheme.colorScheme.secondary,
+          AppTheme.lightPink: lightPinkTheme.colorScheme.secondary,
+          AppTheme.darkPurple: darkPurpleTheme.colorScheme.secondary,
+          AppTheme.lightPurple: lightPurpleTheme.colorScheme.secondary,
+        };
+        final tertiaryColorMap = <AppTheme, Color>{
+          AppTheme.darkGreen: darkGreenTheme.colorScheme.tertiary,
+          AppTheme.lightGreen: lightGreenTheme.colorScheme.tertiary,
+          AppTheme.darkBlue: darkBlueTheme.colorScheme.tertiary,
+          AppTheme.lightBlue: lightBlueTheme.colorScheme.tertiary,
+          AppTheme.darkPink: darkPinkTheme.colorScheme.tertiary,
+          AppTheme.lightPink: lightPinkTheme.colorScheme.tertiary,
+          AppTheme.darkPurple: darkPurpleTheme.colorScheme.tertiary,
+          AppTheme.lightPurple: lightPurpleTheme.colorScheme.tertiary,
+        };
+
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: GridView.count(
+            crossAxisCount: 2,
+            childAspectRatio: 2,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: AppTheme.values.map((itemAppTheme) {
+              return Card.outlined(
+                child: InkWell(
+                  onTap: () {
+                    BlocProvider.of<ThemeBloc>(context)
+                        .add(ChangeTheme(appTheme: itemAppTheme));
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          themeNameMap[itemAppTheme] ?? itemAppTheme.name,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: primaryColorMap[itemAppTheme],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: secondaryColorMap[itemAppTheme],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: tertiaryColorMap[itemAppTheme],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            }).toList(),
           ),
         );
       },

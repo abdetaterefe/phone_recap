@@ -53,6 +53,7 @@ class _RecapViewState extends State<RecapView> {
           } else {
             return ListView.separated(
               itemCount: state.recapList.length,
+              padding: const EdgeInsets.all(8),
               separatorBuilder: (context, index) {
                 return const SizedBox(
                   height: 10,
