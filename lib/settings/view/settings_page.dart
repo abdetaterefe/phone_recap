@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_recap/app/core/constants/constants.dart';
+import 'package:phone_recap/app/services/services.dart';
 import 'package:phone_recap/app/theme/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -143,6 +144,10 @@ class SettingsViewState extends State<SettingsView> {
           AppTheme.lightPurple: lightPurpleTheme.colorScheme.tertiary,
         };
 
+        final currentTheme = BlocProvider.of<ThemeBloc>(context).state.appTheme;
+        final themeData =
+            ThemeService.buildTheme(ThemeState(appTheme: currentTheme));
+        final primaryColor = themeData.colorScheme.primaryContainer;
         return Padding(
           padding: const EdgeInsets.all(16),
           child: GridView.count(
@@ -154,6 +159,9 @@ class SettingsViewState extends State<SettingsView> {
             physics: const NeverScrollableScrollPhysics(),
             children: AppTheme.values.map((itemAppTheme) {
               return Card.outlined(
+                color: currentTheme.name == itemAppTheme.name
+                    ? primaryColor
+                    : null,
                 child: InkWell(
                   onTap: () {
                     BlocProvider.of<ThemeBloc>(context)
