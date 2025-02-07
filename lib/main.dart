@@ -14,7 +14,7 @@ void main() async {
           create: (context) => ThemeBloc(initialTheme),
         ),
       ],
-      child: const App(),
+      child: App(),
     ),
   );
 }

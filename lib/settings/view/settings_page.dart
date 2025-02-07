@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:phone_recap/app/core/constants/constants.dart';
+import 'package:phone_recap/app/lib/ad_helper.dart';
 import 'package:phone_recap/app/services/services.dart';
 import 'package:phone_recap/app/theme/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,18 +26,52 @@ class SettingsView extends StatefulWidget {
 }
 
 class SettingsViewState extends State<SettingsView> {
+  InterstitialAd? interstitialAd;
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              Navigator.pop(context);
+            },
+          );
+
+          setState(() {
+            interstitialAd = ad;
+          });
+        },
+        onAdFailedToLoad: (err) {
+          debugPrint('Failed to load an interstitial ad: ${err.message}');
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    interstitialAd?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.all(8),
         children: <Widget>[
           Card(
             elevation: 2,
             child: ListTile(
               title: const Text('Theme'),
               onTap: () {
+                if (interstitialAd == null) {
+                  _loadInterstitialAd();
+                }
                 _showThemeBottomSheet(context);
               },
               trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
@@ -166,7 +202,11 @@ class SettingsViewState extends State<SettingsView> {
                   onTap: () {
                     BlocProvider.of<ThemeBloc>(context)
                         .add(ChangeTheme(appTheme: itemAppTheme));
-                    Navigator.pop(context);
+                    if (interstitialAd != null) {
+                      interstitialAd?.show();
+                    } else {
+                      Navigator.pop(context);
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
