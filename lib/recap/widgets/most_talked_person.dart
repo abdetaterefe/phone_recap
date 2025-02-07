@@ -18,7 +18,6 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
     if (hours == 0) {
       return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     } else {
-      // ignore: lines_longer_than_80_chars
       return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     }
   }
@@ -78,7 +77,6 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
         ListTile(
           title: const Text('Longest Call'),
           subtitle: Text(
-            // ignore: lines_longer_than_80_chars
             "${longestCalledPerson().name ?? longestCalledPerson().number!}: ${longestCalledPerson().callType?.index == 0 ? "incoming" : "outgoing"}",
           ),
           trailing: Text(

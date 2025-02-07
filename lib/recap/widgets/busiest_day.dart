@@ -1,5 +1,8 @@
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_recap/app/services/services.dart';
+import 'package:phone_recap/app/theme/theme.dart';
 
 class BusiestDay extends StatefulWidget {
   const BusiestDay({
@@ -53,14 +56,13 @@ class _BusiestDayState extends State<BusiestDay> {
         .reduce((value, element) => value > element ? value : element);
 
     for (final value in mtd.values) {
-      var brightness = (value / maxColorValue) * 900;
+      double brightnessRatio = (value / maxColorValue);
 
-      if (brightness < 50) {
-        colors.add(50);
-      } else {
-        brightness = (brightness / 100).round() * 100;
-        colors.add(brightness.toInt());
-      }
+      int alphaValue = (brightnessRatio * 255).toInt();
+
+      alphaValue = alphaValue.clamp(0, 255);
+
+      colors.add(alphaValue);
     }
 
     return colors;
@@ -107,7 +109,6 @@ class _BusiestDayState extends State<BusiestDay> {
     if (hours == 0) {
       return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     } else {
-      // ignore: lines_longer_than_80_chars
       return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
     }
   }
@@ -118,6 +119,11 @@ class _BusiestDayState extends State<BusiestDay> {
     final mostDayOfTheTalkedDuration = getMostDayOfTheTalked(duration: true);
 
     final mostTalkedDates = getMostTalkedDates();
+
+    final currentTheme = BlocProvider.of<ThemeBloc>(context).state.appTheme;
+    final themeData =
+        ThemeService.buildTheme(ThemeState(appTheme: currentTheme));
+    final primaryColor = themeData.colorScheme.primary;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -136,7 +142,8 @@ class _BusiestDayState extends State<BusiestDay> {
                   width: 20,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.green[getMostTalkedGraphColors()[index]],
+                    color: primaryColor
+                        .withAlpha((getMostTalkedGraphColors()[index])),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -148,10 +155,14 @@ class _BusiestDayState extends State<BusiestDay> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text(
+                Text(
                   'Less',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color, // Themed text color
                   ),
                 ),
                 SizedBox(
@@ -161,12 +172,12 @@ class _BusiestDayState extends State<BusiestDay> {
                     shrinkWrap: true,
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      final value = index == 0 ? 50 : index * 100;
+                      final value = index == 0 ? 0 : index * 25;
                       return Container(
                         width: 20,
                         height: 20,
                         decoration: BoxDecoration(
-                          color: Colors.green[value],
+                          color: primaryColor.withAlpha(value + 25),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       );
@@ -178,10 +189,14 @@ class _BusiestDayState extends State<BusiestDay> {
                     },
                   ),
                 ),
-                const Text(
+                Text(
                   'More',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color, // Themed text color
                   ),
                 ),
               ],
@@ -191,16 +206,33 @@ class _BusiestDayState extends State<BusiestDay> {
           ListTile(
             title: Text(
               'Most calls were on ${mostDayOfTheTalked.keys.elementAt(0)}',
+              style: TextStyle(
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.color, // Themed text color
+              ),
             ),
             subtitle: Text(
               formatSeconds(
                 mostDayOfTheTalkedDuration[
                     mostDayOfTheTalkedDuration.keys.elementAt(0)]!,
               ),
+              style: TextStyle(
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.color, // Themed text color
+              ),
             ),
             trailing: Text(
-              // ignore: lines_longer_than_80_chars
               '${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)]} Calls',
+              style: TextStyle(
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.color, // Themed text color
+              ),
             ),
           ),
         ],

@@ -25,11 +25,9 @@ class _TotalTimeState extends State<TotalTime> {
       } else if (remainingSeconds == 0) {
         return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}";
       } else {
-        // ignore: lines_longer_than_80_chars
         return "$remainingMinutes minute${remainingMinutes == 1 ? '' : 's'} and $remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
       }
     } else {
-      // ignore: lines_longer_than_80_chars
       return "$hours hour${hours == 1 ? '' : 's'}, $remainingMinutes minute${remainingMinutes == 1 ? '' : 's'}, and $remainingSeconds second${remainingSeconds == 1 ? '' : 's'}";
     }
   }
@@ -45,16 +43,9 @@ class _TotalTimeState extends State<TotalTime> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Text('Total time: '),
-        Text(
-          formatSeconds(totalTime()),
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
+    return Text(
+      'Total time: ${formatSeconds(totalTime())}',
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
     );
   }
 }

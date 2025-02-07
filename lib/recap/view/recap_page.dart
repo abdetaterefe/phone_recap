@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:phone_recap/app/lib/ad_helper.dart';
 import 'package:phone_recap/recap/recap.dart' as recap;
 import 'package:phone_recap/recap/recap.dart';
 
@@ -28,12 +30,35 @@ class RecapView extends StatefulWidget {
 }
 
 class _RecapViewState extends State<RecapView> {
+  BannerAd? _bannerAd;
   @override
   void initState() {
     super.initState();
     context
         .read<recap.RecapBloc>()
         .add(recap.RecapGetCallRecap(year: widget.year));
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+    ).load();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,58 +67,74 @@ class _RecapViewState extends State<RecapView> {
       appBar: AppBar(
         title: Text(widget.year.toString()),
       ),
-      body: BlocBuilder<recap.RecapBloc, recap.RecapState>(
-        builder: (context, state) {
-          if (state.recapListStatus == recap.Status.loading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state.recapListStatus == recap.Status.error) {
-            return const Center(child: Text('Failed to load Recap.'));
-          } else if (state.recapList.isEmpty) {
-            return const Center(child: Text('No call data available.'));
-          } else {
-            return ListView.separated(
-              itemCount: state.recapList.length,
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 10,
-                );
-              },
-              itemBuilder: (context, index) {
-                final month = state.recapList.keys.elementAt(index);
-                return Card(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          month,
-                          style: const TextStyle(
-                            fontSize: 25,
-                          ),
+      body: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<recap.RecapBloc, recap.RecapState>(
+              builder: (context, state) {
+                if (state.recapListStatus == recap.Status.loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state.recapListStatus == recap.Status.error) {
+                  return const Center(child: Text('Failed to load Recap.'));
+                } else if (state.recapList.isEmpty) {
+                  return const Center(child: Text('No call data available.'));
+                } else {
+                  return ListView.separated(
+                    itemCount: state.recapList.length,
+                    padding: const EdgeInsets.all(8),
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 10,
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      final month = state.recapList.keys.elementAt(index);
+                      return Card(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                month,
+                                style: const TextStyle(
+                                  fontSize: 25,
+                                ),
+                              ),
+                              subtitle: TotalTime(
+                                callLogEntries: state.recapList[month]!,
+                              ),
+                            ),
+                            const Divider(),
+                            IncomingOutgoingCalls(
+                              callLogEntries: state.recapList[month]!,
+                            ),
+                            const Divider(),
+                            BusiestDay(
+                              month: month,
+                              callLogEntries: state.recapList[month]!,
+                            ),
+                            const Divider(),
+                            MostTalkedPerson(
+                              callLogEntries: state.recapList[month]!,
+                            ),
+                          ],
                         ),
-                        subtitle: TotalTime(
-                          callLogEntries: state.recapList[month]!,
-                        ),
-                      ),
-                      const Divider(),
-                      IncomingOutgoingCalls(
-                        callLogEntries: state.recapList[month]!,
-                      ),
-                      const Divider(),
-                      BusiestDay(
-                        month: month,
-                        callLogEntries: state.recapList[month]!,
-                      ),
-                      const Divider(),
-                      MostTalkedPerson(
-                        callLogEntries: state.recapList[month]!,
-                      ),
-                    ],
-                  ),
-                );
+                      );
+                    },
+                  );
+                }
               },
-            );
-          }
-        },
+            ),
+          ),
+          if (_bannerAd != null) // Banner Ad at the bottom
+            Align(
+              alignment: Alignment.bottomCenter, // Align to the bottom
+              child: SizedBox(
+                width: _bannerAd!.size.width.toDouble(),
+                height: _bannerAd!.size.height.toDouble(),
+                child: AdWidget(ad: _bannerAd!),
+              ),
+            ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
