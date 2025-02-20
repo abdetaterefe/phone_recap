@@ -37,10 +37,10 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
     final mostTalkedToPersonMap = <String, int>{};
     for (var i = 0; i < widget.callLogEntries.length; i++) {
       final callLogEntry = widget.callLogEntries[i];
-      final key = callLogEntry.name ?? callLogEntry.number!;
+      final key = callLogEntry.name ?? callLogEntry.number ?? 'Unknown';
       mostTalkedToPersonMap[key] ??= 0;
       mostTalkedToPersonMap[key] =
-          mostTalkedToPersonMap[key]! + callLogEntry.duration!;
+          mostTalkedToPersonMap[key]! + (callLogEntry.duration ?? 0);
     }
     final sortedEntries = mostTalkedToPersonMap.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
@@ -54,7 +54,7 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
 
     for (var i = 0; i < widget.callLogEntries.length; i++) {
       final callLogEntry = widget.callLogEntries[i];
-      final key = callLogEntry.name ?? callLogEntry.number!;
+      final key = callLogEntry.name ?? callLogEntry.number ?? 'Unknown';
       if (widget.callLogEntries[i].callType?.index == callTypeIndex) {
         mostCalledPersonMap[key] ??= 0;
         mostCalledPersonMap[key] = mostCalledPersonMap[key]! + 1;
@@ -77,11 +77,11 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
         ListTile(
           title: const Text('Longest Call'),
           subtitle: Text(
-            "${longestCalledPerson().name ?? longestCalledPerson().number!}: ${longestCalledPerson().callType?.index == 0 ? "incoming" : "outgoing"}",
+            "${longestCalledPerson().name ?? longestCalledPerson().number ?? 'Unknown'}: ${longestCalledPerson().callType?.index == 0 ? "incoming" : "outgoing"}",
           ),
           trailing: Text(
             formatSeconds(
-              longestCalledPerson().duration!,
+              longestCalledPerson().duration ?? 0,
             ),
           ),
         ),
