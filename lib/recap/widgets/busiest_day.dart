@@ -22,8 +22,12 @@ class _BusiestDayState extends State<BusiestDay> {
   Map<String, int> getMostTalkedDates() {
     final mostTalkedDates = <String, int>{};
 
+    if (widget.callLogEntries.isEmpty) {
+      return mostTalkedDates;
+    }
+
     final date = DateTime.fromMillisecondsSinceEpoch(
-      widget.callLogEntries.elementAt(0).duration!,
+      widget.callLogEntries.elementAt(0).timestamp!,
     );
 
     final month = date.month;
@@ -34,7 +38,7 @@ class _BusiestDayState extends State<BusiestDay> {
     final lastDayOfCurrentMonth =
         firstDayOfNextMonth.subtract(const Duration(days: 1));
 
-    for (var i = 1; i < lastDayOfCurrentMonth.day; i++) {
+    for (var i = 1; i <= lastDayOfCurrentMonth.day; i++) {
       mostTalkedDates[i.toString()] ??= 0;
     }
 
@@ -51,6 +55,10 @@ class _BusiestDayState extends State<BusiestDay> {
   List<int> getMostTalkedGraphColors() {
     final colors = <int>[];
     final mtd = getMostTalkedDates();
+
+    if (mtd.isEmpty) {
+      return colors;
+    }
 
     final maxColorValue = mtd.values
         .reduce((value, element) => value > element ? value : element);
@@ -77,9 +85,11 @@ class _BusiestDayState extends State<BusiestDay> {
 
       mostDayOfTheTalked[day] ??= 0;
       if (duration) {
-        mostDayOfTheTalked[day] = mostDayOfTheTalked[day]! + entry.duration!;
+        mostDayOfTheTalked[day] =
+            mostDayOfTheTalked[day]! + (entry.duration ?? 0);
+      } else {
+        mostDayOfTheTalked[day] = mostDayOfTheTalked[day]! + 1;
       }
-      mostDayOfTheTalked[day] = mostDayOfTheTalked[day]! + 1;
     }
 
     final sortedEntries = mostDayOfTheTalked.entries.toList()
@@ -205,7 +215,9 @@ class _BusiestDayState extends State<BusiestDay> {
           const Divider(),
           ListTile(
             title: Text(
-              'Most calls were on ${mostDayOfTheTalked.keys.elementAt(0)}',
+              mostDayOfTheTalked.isNotEmpty
+                  ? 'Most calls were on ${mostDayOfTheTalked.keys.elementAt(0)}'
+                  : 'No call data available',
               style: TextStyle(
                 color: Theme.of(context)
                     .textTheme
@@ -214,10 +226,12 @@ class _BusiestDayState extends State<BusiestDay> {
               ),
             ),
             subtitle: Text(
-              formatSeconds(
-                mostDayOfTheTalkedDuration[
-                    mostDayOfTheTalkedDuration.keys.elementAt(0)]!,
-              ),
+              mostDayOfTheTalkedDuration.isNotEmpty
+                  ? formatSeconds(
+                      mostDayOfTheTalkedDuration[
+                          mostDayOfTheTalkedDuration.keys.elementAt(0)]!,
+                    )
+                  : 'No duration data available',
               style: TextStyle(
                 color: Theme.of(context)
                     .textTheme
@@ -226,7 +240,9 @@ class _BusiestDayState extends State<BusiestDay> {
               ),
             ),
             trailing: Text(
-              '${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)]} Calls',
+              mostDayOfTheTalked.isNotEmpty
+                  ? '${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)]} Calls'
+                  : 'No call data available',
               style: TextStyle(
                 color: Theme.of(context)
                     .textTheme

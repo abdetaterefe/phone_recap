@@ -1,7 +1,7 @@
 name: phone_recap
-description: "A new Flutter project."
+description: "Phone Recap is a simple app that helps you keep track of your phone calls."
 publish_to: "none"
-version: 1.0.1+1
+version: 1.0.2+3
 
 environment:
   sdk: ^3.6.1

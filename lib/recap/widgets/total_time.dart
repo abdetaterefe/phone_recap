@@ -36,7 +36,7 @@ class _TotalTimeState extends State<TotalTime> {
     var totalTime = 0;
     final logEntryLength = widget.callLogEntries.length;
     for (var i = 0; i < logEntryLength; i++) {
-      totalTime += widget.callLogEntries.elementAt(i).duration!;
+      totalTime += widget.callLogEntries.elementAt(i).duration ?? 0;
     }
     return totalTime;
   }
@@ -45,7 +45,7 @@ class _TotalTimeState extends State<TotalTime> {
   Widget build(BuildContext context) {
     return Text(
       'Total time: ${formatSeconds(totalTime())}',
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
     );
   }
 }

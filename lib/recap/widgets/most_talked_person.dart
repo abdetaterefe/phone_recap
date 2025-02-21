@@ -88,30 +88,37 @@ class _MostTalkedPersonState extends State<MostTalkedPerson> {
         ListTile(
           title: const Text('Most Called'),
           subtitle: Text(
-            mostTalkedPerson().keys.first,
+            mostTalkedPerson().isNotEmpty
+                ? mostTalkedPerson().keys.first
+                : 'Unknown',
           ),
           trailing: Text(
-            formatSeconds(
-              mostTalkedPerson()[mostTalkedPerson().keys.first]!,
-            ),
+            mostTalkedPerson().isNotEmpty
+                ? formatSeconds(
+                    mostTalkedPerson()[mostTalkedPerson().keys.first]!)
+                : '0 minutes',
           ),
         ),
         ListTile(
           title: const Text('Most Incoming'),
           subtitle: Text(
-            incoming.keys.first,
+            incoming.isNotEmpty ? incoming.keys.first : 'Unknown',
           ),
           trailing: Text(
-            '${incoming[incoming.keys.first]} times',
+            incoming.isNotEmpty
+                ? '${incoming[incoming.keys.first]} times'
+                : '0 times',
           ),
         ),
         ListTile(
           title: const Text('Most Outgoing'),
           subtitle: Text(
-            outgoing.keys.first,
+            outgoing.isNotEmpty ? outgoing.keys.first : 'Unknown',
           ),
           trailing: Text(
-            '${outgoing[outgoing.keys.first]} times',
+            outgoing.isNotEmpty
+                ? '${outgoing[outgoing.keys.first]} times'
+                : '0 times',
           ),
         ),
       ],

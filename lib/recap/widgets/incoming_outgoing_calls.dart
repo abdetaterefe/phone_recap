@@ -56,6 +56,9 @@ class _IncomingOutgoingCallsState extends State<IncomingOutgoingCalls> {
     final outgoing = getTotalTime(1);
 
     List<int> calculateRatio() {
+      if (incoming + outgoing == 0) {
+        return [0, 0];
+      }
       final incomingRatio = (incoming / (incoming + outgoing)) * 8;
       final outgoingRatio = (outgoing / (incoming + outgoing)) * 8;
 

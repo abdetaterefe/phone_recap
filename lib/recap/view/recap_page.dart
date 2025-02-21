@@ -89,6 +89,7 @@ class _RecapViewState extends State<RecapView> {
                     },
                     itemBuilder: (context, index) {
                       final month = state.recapList.keys.elementAt(index);
+                      final callLogEntries = state.recapList[month] ?? [];
                       return Card(
                         child: Column(
                           children: [
@@ -100,21 +101,21 @@ class _RecapViewState extends State<RecapView> {
                                 ),
                               ),
                               subtitle: TotalTime(
-                                callLogEntries: state.recapList[month]!,
+                                callLogEntries: callLogEntries,
                               ),
                             ),
                             const Divider(),
                             IncomingOutgoingCalls(
-                              callLogEntries: state.recapList[month]!,
+                              callLogEntries: callLogEntries,
                             ),
                             const Divider(),
                             BusiestDay(
                               month: month,
-                              callLogEntries: state.recapList[month]!,
+                              callLogEntries: callLogEntries,
                             ),
                             const Divider(),
                             MostTalkedPerson(
-                              callLogEntries: state.recapList[month]!,
+                              callLogEntries: callLogEntries,
                             ),
                           ],
                         ),
