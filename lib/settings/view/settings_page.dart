@@ -5,6 +5,7 @@ import 'package:phone_recap/app/core/constants/constants.dart';
 import 'package:phone_recap/app/lib/ad_helper.dart';
 import 'package:phone_recap/app/services/services.dart';
 import 'package:phone_recap/app/theme/theme.dart';
+import 'package:phone_recap/app/view/ads.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -59,9 +60,9 @@ class SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
-      body: ListView(
+    return PersistentBannerAdScaffold(
+      appBarTitle: "Settings",
+      child: ListView(
         padding: const EdgeInsets.all(8),
         children: <Widget>[
           Card(
