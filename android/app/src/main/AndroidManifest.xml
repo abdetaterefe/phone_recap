@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="phone_recap"
+        android:label="Phone Recap"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
