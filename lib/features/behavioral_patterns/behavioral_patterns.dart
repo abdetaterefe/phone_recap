@@ -1,0 +1,1 @@
+export 'view/behavioral_patterns_page.dart';
