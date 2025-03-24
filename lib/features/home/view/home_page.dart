@@ -85,10 +85,6 @@ class _HomeViewState extends State<HomeView> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<HomeBloc>().add(HomeLoadTotalStatsEvent()),
-        child: const Icon(Icons.refresh),
-      ),
     );
   }
 }
