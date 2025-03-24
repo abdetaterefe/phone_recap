@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phone_recap/core/constants/constants.dart';
-import 'package:phone_recap/theme/theme.dart';
+import 'package:phone_recap/core/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeService {

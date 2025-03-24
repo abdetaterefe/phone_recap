@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_recap/core/constants/constants.dart';
 import 'package:phone_recap/core/services/services.dart';
-import 'package:phone_recap/theme/theme.dart';
+import 'package:phone_recap/core/theme/theme.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

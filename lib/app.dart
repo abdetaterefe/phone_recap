@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_recap/core/services/services.dart';
-import 'package:phone_recap/theme/theme.dart';
+import 'package:phone_recap/core/theme/theme.dart';
 import 'package:phone_recap/features/home/home.dart';
 import 'package:phone_recap/features/analytics/view/analytics_page.dart';
 import 'package:phone_recap/features/settings/view/settings_page.dart';
