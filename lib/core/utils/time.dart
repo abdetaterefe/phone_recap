@@ -28,4 +28,17 @@ class TimeUtils {
     ];
     return monthNames[date.month - 1];
   }
+
+  static String getDayOfWeek(DateTime date) {
+    final daysOfWeek = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
+    return daysOfWeek[date.weekday - 1];
+  }
 }

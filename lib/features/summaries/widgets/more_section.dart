@@ -57,8 +57,36 @@ class MoreSection extends StatelessWidget {
     return Map.fromEntries(sortedEntries);
   }
 
+  Map<String, int> getMostDayOfTheTalked({required bool duration}) {
+    final mostDayOfTheTalked = <String, int>{};
+
+    for (final entry in entries) {
+      final date = DateTime.fromMillisecondsSinceEpoch(entry.timestamp!);
+      final day = TimeUtils.getDayOfWeek(date);
+
+      mostDayOfTheTalked[day] ??= 0;
+      if (duration) {
+        mostDayOfTheTalked[day] =
+            mostDayOfTheTalked[day]! + (entry.duration ?? 0);
+      } else {
+        mostDayOfTheTalked[day] = mostDayOfTheTalked[day]! + 1;
+      }
+    }
+
+    final sortedEntries =
+        mostDayOfTheTalked.entries.toList()
+          ..sort((a, b) => b.value.compareTo(a.value));
+
+    final sortedMap = Map.fromEntries(sortedEntries);
+    return sortedMap;
+  }
+
   Map<String, int> get mostIncomingCalls => mostCalledPersonByType(0);
   Map<String, int> get mostOutgoingCalls => mostCalledPersonByType(1);
+  Map<String, int> get mostDayOfTheTalked =>
+      getMostDayOfTheTalked(duration: false);
+  Map<String, int> get mostDayOfTheTalkedDuration =>
+      getMostDayOfTheTalked(duration: true);
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +152,19 @@ class MoreSection extends StatelessWidget {
           onTap: () {},
         ),
         ListTile(
-          title: const Text("Most Calls Were Made on"),
-          subtitle: const Text("Mondady - 12 hours"),
-          trailing: Text("22 calls"),
+          title: Text('Most calls were on'),
+          subtitle: Text(
+            mostDayOfTheTalked.isNotEmpty
+                ? '${mostDayOfTheTalked.keys.elementAt(0)} - ${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)]} calls'
+                : 'Unknown',
+          ),
+          trailing: Text(
+            mostDayOfTheTalkedDuration.isNotEmpty
+                ? TimeUtils.formatDuration(
+                  mostDayOfTheTalkedDuration[mostDayOfTheTalked.keys.first]!,
+                )
+                : '0 hours',
+          ),
           onTap: () {},
         ),
       ],
