@@ -108,7 +108,10 @@ class _SummariesViewState extends State<SummariesView> {
                                   const Divider(),
                                   MoreSection(entries: []),
                                   const Divider(),
-                                  const CalendarSection(),
+                                  CalendarSection(
+                                    entries: [],
+                                    currentMonth: "",
+                                  ),
                                 ],
                               ),
                             ),
@@ -166,7 +169,10 @@ class _SummariesViewState extends State<SummariesView> {
                                   entries: state.summaries[_currentMonth] ?? [],
                                 ),
                                 const Divider(),
-                                const CalendarSection(),
+                                CalendarSection(
+                                  entries: state.summaries[_currentMonth] ?? [],
+                                  currentMonth: _currentMonth,
+                                ),
                               ],
                             ),
                           ),
