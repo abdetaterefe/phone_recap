@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "dev.abdeta.phone_recap"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation("androidx.window:window:1.0.0")
+    implementation("androidx.window:window-java:1.0.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }

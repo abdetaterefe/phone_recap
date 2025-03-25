@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_recap/core/constants/constants.dart';
+import 'package:phone_recap/core/notification/notification.dart';
 import 'package:phone_recap/core/services/services.dart';
 import 'package:phone_recap/core/theme/theme.dart';
 
@@ -24,6 +25,30 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   @override
+  void initState() {
+    super.initState();
+    context.read<NotificationBloc>().add(CheckPermission());
+  }
+
+  void _handleNotificationToggle(
+    BuildContext context,
+    NotificationState state,
+    bool value,
+  ) {
+    if (state.hasPermission) {
+      context.read<NotificationBloc>().add(
+        value ? ScheduleNotification() : CancelAllNotifications(),
+      );
+    } else {
+      if (state.isPermanentlyDenied) {
+        context.read<NotificationBloc>().add(OpenSettings());
+      } else {
+        context.read<NotificationBloc>().add(RequestPermission());
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final currentTheme = BlocProvider.of<ThemeBloc>(context).state.appTheme;
     final themeNameMap = <AppTheme, String>{
@@ -36,6 +61,7 @@ class _SettingsViewState extends State<SettingsView> {
       AppTheme.darkPurple: 'Dark Purple',
       AppTheme.lightPurple: 'Light Purple',
     };
+
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
       body: SingleChildScrollView(
@@ -61,12 +87,26 @@ class _SettingsViewState extends State<SettingsView> {
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
-            ListTile(
-              title: const Text('Notifications'),
-              leading: Icon(Icons.notifications),
-              subtitle: const Text('Enable Notifications'),
-              trailing: Switch(value: false, onChanged: (value) {}),
-              onTap: () {},
+            BlocBuilder<NotificationBloc, NotificationState>(
+              builder: (context, state) {
+                return ListTile(
+                  title: const Text('Notifications'),
+                  leading: Icon(Icons.notifications),
+                  subtitle: const Text('Enable Notifications'),
+                  trailing: Switch(
+                    value: state.isEnabled,
+                    onChanged:
+                        (value) =>
+                            _handleNotificationToggle(context, state, value),
+                  ),
+                  onTap:
+                      () => _handleNotificationToggle(
+                        context,
+                        state,
+                        !state.isEnabled,
+                      ),
+                );
+              },
             ),
             Divider(),
             ListTile(
