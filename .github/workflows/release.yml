@@ -21,7 +21,7 @@ jobs:
         with:
           cache: true
           channel: stable
-          flutter-version-file: pubspec.yaml
+          flutter-version: 3.29.0
       - run: flutter pub get
       - run: flutter build apk
       - name: Print outputs
