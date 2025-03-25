@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -14,28 +17,55 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      # - name: Set up Java
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     distribution: "zulu"
-      #     java-version: "17"
-      # - name: Set up Flutter
-      #   uses: subosito/flutter-action@v2
-      #   with:
-      #     cache: true
-      #     channel: stable
-      #     flutter-version: 3.29.0
-      # - name: Install dependencies
-      #   run: flutter pub get
-      # - name: Build APK
-      #   run: flutter build apk
-      - name: Generate Changelog
-        run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.txt
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
-          # files: build/app/outputs/flutter-apk/app-release.apk
-          body_path: ${{ github.workspace }}-CHANGELOG.txt
-          repository: my_gh_org/my_gh_repo
+          fetch-depth: 0
+
+      - name: Extract App Version
+        id: version
+        run: |
+          VERSION=$(grep 'version:' pubspec.yaml | sed -E 's/version: ([0-9]+\.[0-9]+\.[0-9]+)\+?[0-9]*/\1/')
+          echo "APP_VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          channel: stable
+          flutter-version: 3.29.0
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk
+
+      - name: Generate Changelog
+        id: changelog
+        run: |
+          # Get previous tag or default to initial commit
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$PREV_TAG" ]; then
+            # No previous tags - get all commits
+            git log --pretty=format:"- %s (%h)" > CHANGELOG.md
+          else
+            # Get commits since last tag
+            git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD > CHANGELOG.md
+          fi
+
+          echo "CHANGELOG_PATH=CHANGELOG.md" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.APP_VERSION }}
+          name: Release ${{ steps.version.outputs.APP_VERSION }}
+          files: build/app/outputs/flutter-apk/app-release.apk
+          body_path: ${{ steps.changelog.outputs.CHANGELOG_PATH }}
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
