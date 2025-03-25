@@ -104,8 +104,8 @@ class NotificationService {
 
       await _notificationPlugin.zonedSchedule(
         0,
-        'End of Month Reminder',
-        'Don\'t forget to [Your Reminder Message Here]!',
+        'Reminder',
+        'Click here to see your call history',
         scheduledTime,
         _notificationDetails(),
         androidScheduleMode: AndroidScheduleMode.exact,

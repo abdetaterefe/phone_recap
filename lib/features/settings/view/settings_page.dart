@@ -4,6 +4,7 @@ import 'package:phone_recap/core/constants/constants.dart';
 import 'package:phone_recap/core/notification/notification.dart';
 import 'package:phone_recap/core/services/services.dart';
 import 'package:phone_recap/core/theme/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -135,7 +136,14 @@ class _SettingsViewState extends State<SettingsView> {
               title: const Text('Version'),
               leading: Icon(Icons.info),
               subtitle: const Text('1.1.0'),
-              onTap: () {},
+              onTap: () async {
+                final url = Uri.parse(
+                  'https://github.com/abdetaterefe/phone_recap/releases',
+                );
+                if (!await launchUrl(url)) {
+                  throw Exception('Could not launch $url');
+                }
+              },
             ),
             ListTile(
               title: const Text('License'),
@@ -149,7 +157,14 @@ class _SettingsViewState extends State<SettingsView> {
               subtitle: const Text(
                 'https://github.com/abdetaterefe/phone_recap',
               ),
-              onTap: () {},
+              onTap: () async {
+                final url = Uri.parse(
+                  'https://github.com/abdetaterefe/phone_recap',
+                );
+                if (!await launchUrl(url)) {
+                  throw Exception('Could not launch $url');
+                }
+              },
             ),
           ],
         ),
