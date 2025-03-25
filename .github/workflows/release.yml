@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Extract App Version
         id: version
