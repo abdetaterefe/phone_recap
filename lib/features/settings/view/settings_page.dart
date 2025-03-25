@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:phone_recap/core/constants/constants.dart';
 import 'package:phone_recap/core/notification/notification.dart';
 import 'package:phone_recap/core/services/services.dart';
@@ -132,16 +133,28 @@ class _SettingsViewState extends State<SettingsView> {
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
-            ListTile(
-              title: const Text('Version'),
-              leading: Icon(Icons.info),
-              subtitle: const Text('1.1.0'),
-              onTap: () async {
-                final url = Uri.parse(
-                  'https://github.com/abdetaterefe/phone_recap/releases',
-                );
-                if (!await launchUrl(url)) {
-                  throw Exception('Could not launch $url');
+            FutureBuilder(
+              future: PackageInfo.fromPlatform(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return SizedBox();
+                } else if (snapshot.hasData) {
+                  final packageInfo = snapshot.data!;
+                  return ListTile(
+                    title: const Text('Version'),
+                    leading: Icon(Icons.info),
+                    subtitle: Text(packageInfo.version),
+                    onTap: () async {
+                      final url = Uri.parse(
+                        'https://github.com/abdetaterefe/phone_recap/releases',
+                      );
+                      if (!await launchUrl(url)) {
+                        throw Exception('Could not launch $url');
+                      }
+                    },
+                  );
+                } else {
+                  return SizedBox();
                 }
               },
             ),
