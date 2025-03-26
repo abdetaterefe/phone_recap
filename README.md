@@ -2,17 +2,40 @@
 
 Phone Recap is an app that scans your call history and shows you useful stats and graphs. You can see how long you talk, who you talk to the most when you make or receive calls, and more. Phone recap has a beautiful and intuitive interface that makes it easy to explore your data.
 
-## Preview
-
-| HomePage    | Recap Page | Theme Options |
-| -------- | ------- | -------- |
-| ![photo_2025-03-11_08-19-34](https://github.com/user-attachments/assets/e65d7e78-29ba-48ed-8090-239434c495d6)  | ![photo_2025-03-11_08-19-29](https://github.com/user-attachments/assets/ba1ec670-4172-487c-aa96-544db055b5d7)    | ![photo_2025-03-11_08-19-31](https://github.com/user-attachments/assets/587eed79-5567-401c-94c0-d93be615198b) |
-
-
 ## Features
 
-- Scan your call history and see how long you talk, who you talk to the most when you make or receive calls, and more.
-- See your call history in a beautiful and intuitive interface.
+- [x] View Total Calls Summary
+- [x] View Monthly Calls Summary
+- [x] View Contact Specific Calls Insights
+- [ ] View Behavior Patterns
+- [ ] View Advanced Metrics
+- [ ] View Comparative Analysis
+
+<!-- ## Features Details -->
+
+<!-- ### View Total Calls Summary
+
+This feature allows you to view a summary of all your calls, including the total number of calls made, the total number of calls received, and the total duration of calls. You can also view the average duration of calls and the number of calls per minute.
+
+### View Monthly Calls Summary
+
+This feature allows you to view a summary of your calls for each month, including the total number of calls made, the total number of calls received, and the total duration of calls. You can also view the average duration of calls and the number of calls per minute.
+
+### View Contact Specific Calls Insights
+
+This feature allows you to view insights about a specific contact, including the total number of calls made, the total number of calls received, and the total duration of calls. You can also view the average duration of calls and the number of calls per minute.
+
+## View Behavior Patterns
+
+This feature allows you to view patterns of behavior, such as the number of calls made to a specific contact, the number of calls received from a specific contact, and the duration of calls made to a specific contact. You can also view the average duration of calls and the number of calls per minute.
+
+## View Advanced Metrics
+
+This feature allows you to view advanced metrics, such as the number of calls made to a specific contact, the number of calls received from a specific contact, and the duration of calls made to a specific contact. You can also view the average duration of calls and the number of calls per minute.
+
+## View Comparative Analysis
+
+This feature allows you to compare your calls to other people or groups, such as your friends or colleagues. You can view the total number of calls made, the total number of calls received, and the total duration of calls. You can also view the average duration of calls and the number of calls per minute. -->
 
 ## Contributing
 
