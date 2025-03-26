@@ -17,6 +17,9 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
+        # Needed for full commit history
+        # with:
+        #   fetch-depth: 0
 
       - name: Extract App Version
         id: version
@@ -37,26 +40,45 @@ jobs:
           channel: stable
           flutter-version: 3.29.0
 
+      - name: Cache Flutter dependencies
+        id: flutter-pub-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ env.FLUTTER_HOME }}/.pub-cache/
+            .dart_tool/
+          key: ${{ runner.os }}-flutter-pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-pub-
+
+      - name: Cache Gradle
+        id: gradle-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('android/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk
+        run: flutter build apk --release
+        env:
+          GRADLE_OPTS: -Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
 
       - name: Generate Changelog
         id: changelog
         run: |
-          # Get previous tag or default to initial commit
           PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-
           if [ -z "$PREV_TAG" ]; then
-            # No previous tags - get all commits
-            git log --pretty=format:"- %s (%h)" > CHANGELOG.md
+            git log --pretty=format:"- %s (%h) [%an]" > CHANGELOG.md
           else
-            # Get commits since last tag
-            git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD > CHANGELOG.md
+            git log --pretty=format:"- %s (%h) [%an]" $PREV_TAG..HEAD >> CHANGELOG.md
           fi
-
           echo "CHANGELOG_PATH=CHANGELOG.md" >> $GITHUB_OUTPUT
 
       - name: Create Release
