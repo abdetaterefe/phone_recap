@@ -5,9 +5,9 @@ import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static const String _notificationEnabledKey = 'notification_enabled';
-  static const String _channelId = 'daily_channel_id';
-  static const String _channelName = 'Daily Notifications';
-  static const String _channelDescription = 'Daily notifications channel';
+  static const String _channelId = 'weekly_channel_id';
+  static const String _channelName = 'Weekly Notifications';
+  static const String _channelDescription = 'Weekly notifications channel';
 
   final FlutterLocalNotificationsPlugin _notificationPlugin =
       FlutterLocalNotificationsPlugin();
@@ -74,33 +74,20 @@ class NotificationService {
 
       final now = tz.TZDateTime.now(tz.local);
 
-      int endDayOfMonth =
-          tz.TZDateTime(tz.local, now.year, now.month + 1, 0).day;
+      int weekday = now.weekday;
+      int daysToAdd = DateTime.sunday - weekday;
+      final endDayOfWeek = now
+          .add(Duration(days: daysToAdd))
+          .copyWith(hour: 23, minute: 59, second: 59, millisecond: 999);
 
-      final targetTime = tz.TZDateTime(
+      tz.TZDateTime scheduledTime = tz.TZDateTime(
         tz.local,
         now.year,
         now.month,
-        endDayOfMonth,
+        endDayOfWeek.day,
         20,
         0,
-        0,
       );
-
-      tz.TZDateTime scheduledTime;
-      if (targetTime.isBefore(now)) {
-        scheduledTime = tz.TZDateTime(
-          tz.local,
-          now.year,
-          now.month + 1,
-          endDayOfMonth,
-          20,
-          0,
-          0,
-        );
-      } else {
-        scheduledTime = targetTime;
-      }
 
       await _notificationPlugin.zonedSchedule(
         0,
@@ -109,7 +96,7 @@ class NotificationService {
         scheduledTime,
         _notificationDetails(),
         androidScheduleMode: AndroidScheduleMode.exact,
-        matchDateTimeComponents: DateTimeComponents.dayOfMonthAndTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
       );
       return true;
     } catch (e) {
