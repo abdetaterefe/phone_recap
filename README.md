@@ -10,6 +10,8 @@ Phone Recap is an app that scans your call history and shows you useful stats an
 - [ ] View Behavior Patterns
 - [ ] View Advanced Metrics
 - [ ] View Comparative Analysis
+- [x] Notifications
+- [ ] Crash Reporting
 
 <!-- ## Features Details -->
 
