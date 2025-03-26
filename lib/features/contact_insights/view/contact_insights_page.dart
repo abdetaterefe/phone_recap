@@ -1,14 +1,22 @@
-import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_recap/core/utils/time.dart';
+import 'package:phone_recap/core/utils/utils.dart';
+import 'package:phone_recap/features/contact_insights/contact_insights.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:intl/intl.dart';
 
 class ContactInsightsPage extends StatelessWidget {
   const ContactInsightsPage({super.key});
   static MaterialPageRoute<ContactInsightsPage> route() =>
-      MaterialPageRoute(builder: (context) => ContactInsightsPage());
+      MaterialPageRoute(builder: (context) => const ContactInsightsPage());
 
   @override
   Widget build(BuildContext context) {
-    return ContactInsightsView();
+    return BlocProvider(
+      create: (_) => ContactInsightsBloc(),
+      child: const ContactInsightsView(),
+    );
   }
 }
 
@@ -19,109 +27,242 @@ class ContactInsightsView extends StatefulWidget {
   State<ContactInsightsView> createState() => _ContactInsightsViewState();
 }
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-typedef MenuEntry = DropdownMenuEntry<String>;
-
 class _ContactInsightsViewState extends State<ContactInsightsView> {
-  static final List<MenuEntry> menuEntries = UnmodifiableListView<MenuEntry>(
-    list.map<MenuEntry>((String name) => MenuEntry(value: name, label: name)),
-  );
-  String dropdownValue = list.first;
+  @override
+  void initState() {
+    super.initState();
+    context.read<ContactInsightsBloc>().add(ContactInsightsLoadContactsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Contact Insights')),
+      appBar: AppBar(title: const Text('Contact Insights')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Card.filled(
-              child: DropdownMenu<String>(
-                width: double.infinity,
-                leadingIcon: Icon(
-                  Icons.contacts,
-                  color: Theme.of(context).colorScheme.primary,
+        child: BlocBuilder<ContactInsightsBloc, ContactInsightsState>(
+          builder: (context, state) {
+            if (state.status == Status.loading) {
+              return Shimmer.fromColors(
+                enabled: true,
+                direction: ShimmerDirection.ltr,
+                baseColor:
+                    Theme.of(context).colorScheme.brightness == Brightness.dark
+                        ? Theme.of(context).colorScheme.surfaceBright
+                        : Theme.of(context).colorScheme.surfaceDim,
+                highlightColor:
+                    Theme.of(context).colorScheme.brightness == Brightness.dark
+                        ? Theme.of(context).colorScheme.surfaceContainerHigh
+                        : Theme.of(context).colorScheme.surfaceContainerHigh,
+
+                child: Column(
+                  children: [
+                    Card.filled(
+                      child: DropdownMenu<String>(
+                        width: double.infinity,
+                        leadingIcon: Icon(
+                          Icons.contacts,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        inputDecorationTheme: const InputDecorationTheme(
+                          border: InputBorder.none,
+                        ),
+                        initialSelection: "",
+                        onSelected: (String? value) {},
+                        dropdownMenuEntries: [],
+                      ),
+                    ),
+                    Expanded(
+                      child: Card(
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                inputDecorationTheme: InputDecorationTheme(
-                  border: InputBorder.none,
-                ),
-                initialSelection: list.first,
-                onSelected: (String? value) {
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-                dropdownMenuEntries: menuEntries,
-              ),
-            ),
-            Expanded(
-              child: Card(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              "Response Rate",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
+              );
+            } else if (state.status == Status.error) {
+              return SizedBox(child: Text("An error occurred"));
+            } else {
+              return Column(
+                children: [
+                  // Dropdown
+                  Card.filled(
+                    child: DropdownMenu<String>(
+                      width: double.infinity,
+                      leadingIcon: Icon(
+                        Icons.contacts,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      inputDecorationTheme: const InputDecorationTheme(
+                        border: InputBorder.none,
+                      ),
+                      initialSelection: state.selectedContactPhoneNumber,
+                      onSelected: (String? value) {
+                        context.read<ContactInsightsBloc>().add(
+                          ContactInsightsCalculateEvent(
+                            phoneNumber: value ?? "",
+                            contacts: state.contacts,
                           ),
-                          ListTile(
-                            title: Text(
-                              "78%",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            subtitle: Text(
-                              "125 calls have been answered out of 138 calls",
-                            ),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text(
-                              "Average Call Duration",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            title: Text(
-                              "3 minutes",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                          ),
-                          Divider(),
-                          ListTile(
-                            title: Text(
-                              "Communication Streak",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            title: Text(
-                              "3 days",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            subtitle: Text(
-                              "Longest streak was recorded from 2022-01-01 to 2022-02-01",
-                            ),
-                          ),
-                        ],
+                        );
+                      },
+                      dropdownMenuEntries:
+                          state.contacts.map((contact) {
+                            final displayName =
+                                "${contact["displayName"]} - ${contact["phoneNumber"]}";
+                            final phoneNumber = contact["phoneNumber"] ?? '';
+                            return DropdownMenuEntry<String>(
+                              label: displayName,
+                              value: phoneNumber,
+                            );
+                          }).toList(),
+                    ),
+                  ),
+                  // Expanded
+                  Expanded(
+                    child: Card(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                              state.status == Status.empty
+                                  ? Center(child: Text("No Data"))
+                                  : SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text(
+                                            "Total Calls",
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                            ),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            state.totalCalls.toString(),
+                                            style:
+                                                Theme.of(
+                                                  context,
+                                                ).textTheme.titleLarge,
+                                          ),
+                                          subtitle: Text(
+                                            TimeUtils.formatDuration(
+                                              state.totalDuration,
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          title: Text(
+                                            "Average Call Duration",
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                            ),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            TimeUtils.formatDuration(
+                                              state.averageDuration.toInt(),
+                                            ),
+                                            style:
+                                                Theme.of(
+                                                  context,
+                                                ).textTheme.titleLarge,
+                                          ),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          title: Text(
+                                            "Response Rate",
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                            ),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            "${Utils.persent(state.answeredCalls, state.totalCalls)}%",
+                                            style:
+                                                Theme.of(
+                                                  context,
+                                                ).textTheme.titleLarge,
+                                          ),
+                                          subtitle: Text(
+                                            "${state.answeredCalls} calls have been answered out of ${state.totalCalls} calls",
+                                          ),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          title: Text(
+                                            "Longest Streak",
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                            ),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          title: Text(
+                                            "${state.longestStreak.length} days",
+                                            style:
+                                                Theme.of(
+                                                  context,
+                                                ).textTheme.titleLarge,
+                                          ),
+                                          subtitle: Text(
+                                            state.longestStreak.isNotEmpty &&
+                                                    state
+                                                            .longestStreak
+                                                            .first
+                                                            .timestamp !=
+                                                        null &&
+                                                    state
+                                                            .longestStreak
+                                                            .last
+                                                            .timestamp !=
+                                                        null &&
+                                                    state
+                                                            .longestStreak
+                                                            .first
+                                                            .timestamp! >=
+                                                        0 &&
+                                                    state
+                                                            .longestStreak
+                                                            .last
+                                                            .timestamp! >=
+                                                        0
+                                                ? "Longest streak was recorded from ${DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(state.longestStreak.first.timestamp!))} to ${DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(state.longestStreak.last.timestamp!))}"
+                                                : "Longest streak data unavailable",
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
-          ],
+                  // Expanded
+                ],
+              );
+            }
+          },
         ),
       ),
     );
