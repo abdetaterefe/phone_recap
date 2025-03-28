@@ -1,16 +1,21 @@
-import 'dart:collection';
-
+import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phone_recap/features/behavioral_patterns/behavioral_patterns.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BehavioralPatternsPage extends StatelessWidget {
   const BehavioralPatternsPage({super.key});
+
   static MaterialPageRoute<BehavioralPatternsPage> route() =>
-      MaterialPageRoute(builder: (context) => BehavioralPatternsPage());
+      MaterialPageRoute(builder: (context) => const BehavioralPatternsPage());
 
   @override
   Widget build(BuildContext context) {
-    return BehavioralPatternsView();
+    return BlocProvider(
+      create: (context) => BehavioralPatternsBloc(),
+      child: const BehavioralPatternsView(),
+    );
   }
 }
 
@@ -21,147 +26,118 @@ class BehavioralPatternsView extends StatefulWidget {
   State<BehavioralPatternsView> createState() => _BehavioralPatternsViewState();
 }
 
-const List<String> list = <String>['All', 'Incoming', 'Outgoing'];
-typedef MenuEntry = DropdownMenuEntry<String>;
-
 class _BehavioralPatternsViewState extends State<BehavioralPatternsView> {
-  DateTimeRange _selectedDateRange = DateTimeRange(
-    start: DateTime.now().subtract(Duration(days: 30)),
-    end: DateTime.now(),
-  );
-  Map<DateTime, int> _callFrequency = {};
-  List<CallRecord> _callRecords = [];
-
-  static final List<MenuEntry> menuEntries = UnmodifiableListView<MenuEntry>(
-    list.map<MenuEntry>((String name) => MenuEntry(value: name, label: name)),
-  );
-  String dropdownValue = list.first;
-
   @override
   void initState() {
     super.initState();
-    _generateDummyData();
-  }
-
-  void _generateDummyData() {
-    final random = DateTime.now().millisecondsSinceEpoch % 100;
-    _callRecords = List.generate(100, (index) {
-      final time = DateTime.now().subtract(
-        Duration(days: random % 30, hours: random % 24, minutes: random % 60),
-      );
-      return CallRecord(
-        time,
-        random % 300,
-        random % 2 == 0 ? CallType.incoming : CallType.outgoing,
-      );
-    });
-
-    _callFrequency = {};
-    for (final record in _callRecords) {
-      final date = DateTime(
-        record.time.year,
-        record.time.month,
-        record.time.day,
-      );
-      _callFrequency[date] = (_callFrequency[date] ?? 0) + 1;
-    }
-  }
-
-  Future<void> _selectDateRange(BuildContext context) async {
-    final DateTimeRange? picked = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-      initialDateRange: _selectedDateRange,
+    context.read<BehavioralPatternsBloc>().add(
+      BehavioralPatternsFrequencyHeatmapEvent(callType: "all"),
     );
-    if (picked != null && picked != _selectedDateRange) {
-      setState(() {
-        _selectedDateRange = picked;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Behavioral Patterns')),
+      appBar: AppBar(
+        title: const Text('Behavioral Patterns'),
+        centerTitle: true,
+      ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Card(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton.icon(
-                    onPressed: () => _selectDateRange(context),
-                    label: Text("Date Range"),
-                    icon: Icon(Icons.calendar_today),
-                  ),
-                  Expanded(
-                    child: DropdownMenu<String>(
-                      width: double.infinity,
-                      leadingIcon: Icon(
-                        Icons.contacts,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      inputDecorationTheme: InputDecorationTheme(
-                        border: InputBorder.none,
-                      ),
-                      initialSelection: list.first,
-                      onSelected: (String? value) {
-                        setState(() {
-                          dropdownValue = value!;
-                        });
-                      },
-                      dropdownMenuEntries: menuEntries,
+            BlocBuilder<BehavioralPatternsBloc, BehavioralPatternsState>(
+              builder: (context, state) {
+                return Card(
+                  child: DropdownMenu<String>(
+                    width: double.infinity,
+                    leadingIcon: Icon(
+                      Icons.filter_alt,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
+                    inputDecorationTheme: const InputDecorationTheme(
+                      border: InputBorder.none,
+                    ),
+                    initialSelection: "all",
+                    onSelected: (String? value) {
+                      context.read<BehavioralPatternsBloc>().add(
+                        BehavioralPatternsFrequencyHeatmapEvent(
+                          callType: value ?? "all",
+                        ),
+                      );
+                    },
+                    dropdownMenuEntries: [
+                      DropdownMenuEntry(value: "all", label: "All"),
+                      DropdownMenuEntry(
+                        value: CallType.incoming.name,
+                        label: "Incoming",
+                      ),
+                      DropdownMenuEntry(
+                        value: CallType.outgoing.name,
+                        label: "Outgoing",
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             ),
             Expanded(
               child: Card(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              "Time-of-Day Habits",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                child: BlocBuilder<
+                  BehavioralPatternsBloc,
+                  BehavioralPatternsState
+                >(
+                  builder: (context, state) {
+                    if (state.status == Status.loading) {
+                      return Shimmer.fromColors(
+                        enabled: true,
+                        direction: ShimmerDirection.ltr,
+                        baseColor:
+                            Theme.of(context).colorScheme.brightness ==
+                                    Brightness.dark
+                                ? Theme.of(context).colorScheme.surfaceBright
+                                : Theme.of(context).colorScheme.surfaceDim,
+                        highlightColor:
+                            Theme.of(context).colorScheme.brightness ==
+                                    Brightness.dark
+                                ? Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHigh
+                                : Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHigh,
+                        child: SizedBox(width: double.infinity),
+                      );
+                    } else if (state.status == Status.error) {
+                      return const Center(child: Text("Error"));
+                    } else {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    "When is the time you call most often?",
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                ),
+                                FrequencyHeatmap(
+                                  frequencyHeatmap: state.frequencyHeatmap,
+                                ),
+                                Divider(),
+                              ],
                             ),
                           ),
-                          _buildTimeOfDayChart(),
-                          Divider(),
-                          ListTile(
-                            title: Text(
-                              "Day-of-Week Trends",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                          _buildDayOfWeekChart(),
-                          Divider(),
-                          ListTile(
-                            title: Text(
-                              "Short vs. Long Calls",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                          _buildCallDurationPieChart(),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
             ),
@@ -170,118 +146,4 @@ class _BehavioralPatternsViewState extends State<BehavioralPatternsView> {
       ),
     );
   }
-
-  Widget _buildTimeOfDayChart() {
-    Map<int, int> hourlyCalls = {};
-    for (final record in _callRecords) {
-      final hour = record.time.hour;
-      hourlyCalls[hour] = (hourlyCalls[hour] ?? 0) + 1;
-    }
-
-    List<BarChartGroupData> barGroups =
-        hourlyCalls.entries
-            .map(
-              (entry) => BarChartGroupData(
-                x: entry.key,
-                barRods: [BarChartRodData(toY: entry.value.toDouble())],
-              ),
-            )
-            .toList();
-
-    return SizedBox(
-      height: 200,
-      child: BarChart(
-        BarChartData(
-          barGroups: barGroups,
-          titlesData: FlTitlesData(
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                // getTitles: (value) => '${value.toInt()}:00',
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDayOfWeekChart() {
-    Map<int, int> dayOfWeekCalls = {};
-    for (final record in _callRecords) {
-      final day = record.time.weekday;
-      dayOfWeekCalls[day] = (dayOfWeekCalls[day] ?? 0) + 1;
-    }
-
-    List<BarChartGroupData> barGroups =
-        dayOfWeekCalls.entries
-            .map(
-              (entry) => BarChartGroupData(
-                x: entry.key,
-                barRods: [
-                  BarChartRodData(
-                    fromY: entry.value.toDouble(),
-                    color: Colors.blue,
-                    toY: entry.value.toDouble(),
-                  ),
-                ],
-              ),
-            )
-            .toList();
-
-    return SizedBox(
-      height: 200,
-      child: BarChart(
-        BarChartData(
-          barGroups: barGroups,
-          titlesData: FlTitlesData(
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: true,
-                // getTitles: (value) =>
-                //     DateFormat('E').format(DateTime(2023, 1, value.toInt())),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCallDurationPieChart() {
-    int shortCalls =
-        _callRecords.where((record) => record.duration < 120).length;
-    int longCalls =
-        _callRecords.where((record) => record.duration >= 120).length;
-
-    return SizedBox(
-      height: 200,
-      child: PieChart(
-        PieChartData(
-          sections: [
-            PieChartSectionData(
-              value: shortCalls.toDouble(),
-              title: 'Short',
-              color: Colors.blue,
-            ),
-            PieChartSectionData(
-              value: longCalls.toDouble(),
-              title: 'Long',
-              color: Colors.green,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-enum CallType { incoming, outgoing }
-
-class CallRecord {
-  final DateTime time;
-  final int duration;
-  final CallType type;
-
-  CallRecord(this.time, this.duration, this.type);
 }
