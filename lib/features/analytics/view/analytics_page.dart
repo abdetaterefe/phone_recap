@@ -27,7 +27,7 @@ class _AnalyticsViewState extends State<AnalyticsView> {
   final List<Map<String, dynamic>> _tabs = [
     {
       'title': 'Summaries',
-      'subtitle': 'Overview of key metrics summarized by time period.',
+      'subtitle': 'Datailed analysis of call patterns for each Month.',
       'icon': Icons.summarize,
       'page': SummariesPage(),
     },
@@ -51,7 +51,7 @@ class _AnalyticsViewState extends State<AnalyticsView> {
     },
     {
       'title': 'Comparative Analytics',
-      'subtitle': 'Compare call trends and engagement over different periods.',
+      'subtitle': 'Datailed comparison of call patterns for two contacts.',
       'icon': Icons.compare_arrows,
       'page': ComparativeAnalyticsPage(),
     },

@@ -94,7 +94,9 @@ class _SettingsViewState extends State<SettingsView> {
                 return ListTile(
                   title: const Text('Notifications'),
                   leading: Icon(Icons.notifications),
-                  subtitle: const Text('Enable Notifications'),
+                  subtitle: const Text(
+                    'Notification are sent once a week on Sundays to remind you to check your Recaps.',
+                  ),
                   trailing: Switch(
                     value: state.isEnabled,
                     onChanged:

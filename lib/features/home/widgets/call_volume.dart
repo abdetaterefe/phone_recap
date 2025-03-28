@@ -14,9 +14,22 @@ class CallVolumeChartSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'Call Volume Trend',
-              style: Theme.of(context).textTheme.titleLarge,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Call Volume Trend',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Tooltip(
+                  triggerMode: TooltipTriggerMode.tap,
+                  enableTapToDismiss: true,
+                  showDuration: Duration(seconds: 10),
+                  message:
+                      'This Chart shows the trend of your call amount for each week of a year.',
+                  child: Icon(Icons.info_outline),
+                ),
+              ],
             ),
             const Divider(),
             const SizedBox(height: 8),
