@@ -60,13 +60,6 @@ class _ContactInsightsViewState extends State<ContactInsightsView> {
                     Card.filled(
                       child: DropdownMenu<String>(
                         width: double.infinity,
-                        leadingIcon: Icon(
-                          Icons.contacts,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        inputDecorationTheme: const InputDecorationTheme(
-                          border: InputBorder.none,
-                        ),
                         initialSelection: "",
                         onSelected: (String? value) {},
                         dropdownMenuEntries: [],

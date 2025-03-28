@@ -38,80 +38,83 @@ class _BehavioralPatternsViewState extends State<BehavioralPatternsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Behavioral Patterns'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Behavioral Patterns')),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            BlocBuilder<BehavioralPatternsBloc, BehavioralPatternsState>(
-              builder: (context, state) {
-                return Card(
-                  child: DropdownMenu<String>(
-                    width: double.infinity,
-                    leadingIcon: Icon(
-                      Icons.filter_alt,
-                      color: Theme.of(context).colorScheme.primary,
+        child: BlocBuilder<BehavioralPatternsBloc, BehavioralPatternsState>(
+          builder: (context, state) {
+            if (state.status == Status.loading) {
+              return Shimmer.fromColors(
+                enabled: true,
+                direction: ShimmerDirection.ltr,
+                baseColor:
+                    Theme.of(context).colorScheme.brightness == Brightness.dark
+                        ? Theme.of(context).colorScheme.surfaceBright
+                        : Theme.of(context).colorScheme.surfaceDim,
+                highlightColor:
+                    Theme.of(context).colorScheme.brightness == Brightness.dark
+                        ? Theme.of(context).colorScheme.surfaceContainerHigh
+                        : Theme.of(context).colorScheme.surfaceContainerHigh,
+                child: Column(
+                  children: [
+                    Card(
+                      child: DropdownMenu<String>(
+                        width: double.infinity,
+                        initialSelection: "all",
+                        onSelected: (String? value) {},
+                        dropdownMenuEntries: [],
+                      ),
                     ),
-                    inputDecorationTheme: const InputDecorationTheme(
-                      border: InputBorder.none,
-                    ),
-                    initialSelection: "all",
-                    onSelected: (String? value) {
-                      context.read<BehavioralPatternsBloc>().add(
-                        BehavioralPatternsFrequencyHeatmapEvent(
-                          callType: value ?? "all",
+                    Expanded(
+                      child: Card(
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
                         ),
-                      );
-                    },
-                    dropdownMenuEntries: [
-                      DropdownMenuEntry(value: "all", label: "All"),
-                      DropdownMenuEntry(
-                        value: CallType.incoming.name,
-                        label: "Incoming",
                       ),
-                      DropdownMenuEntry(
-                        value: CallType.outgoing.name,
-                        label: "Outgoing",
+                    ),
+                  ],
+                ),
+              );
+            } else if (state.status == Status.error) {
+              return const Center(child: Text("Error"));
+            } else {
+              return Column(
+                children: [
+                  Card.filled(
+                    child: DropdownMenu<String>(
+                      width: double.infinity,
+                      leadingIcon: Icon(
+                        Icons.filter_alt,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                    ],
+                      inputDecorationTheme: const InputDecorationTheme(
+                        border: InputBorder.none,
+                      ),
+                      initialSelection: "all",
+                      onSelected: (String? value) {
+                        context.read<BehavioralPatternsBloc>().add(
+                          BehavioralPatternsFrequencyHeatmapEvent(
+                            callType: value ?? "all",
+                          ),
+                        );
+                      },
+                      dropdownMenuEntries: [
+                        DropdownMenuEntry(value: "all", label: "All"),
+                        DropdownMenuEntry(
+                          value: CallType.incoming.name,
+                          label: "Incoming",
+                        ),
+                        DropdownMenuEntry(
+                          value: CallType.outgoing.name,
+                          label: "Outgoing",
+                        ),
+                      ],
+                    ),
                   ),
-                );
-              },
-            ),
-            Expanded(
-              child: Card(
-                child: BlocBuilder<
-                  BehavioralPatternsBloc,
-                  BehavioralPatternsState
-                >(
-                  builder: (context, state) {
-                    if (state.status == Status.loading) {
-                      return Shimmer.fromColors(
-                        enabled: true,
-                        direction: ShimmerDirection.ltr,
-                        baseColor:
-                            Theme.of(context).colorScheme.brightness ==
-                                    Brightness.dark
-                                ? Theme.of(context).colorScheme.surfaceBright
-                                : Theme.of(context).colorScheme.surfaceDim,
-                        highlightColor:
-                            Theme.of(context).colorScheme.brightness ==
-                                    Brightness.dark
-                                ? Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHigh
-                                : Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHigh,
-                        child: SizedBox(width: double.infinity),
-                      );
-                    } else if (state.status == Status.error) {
-                      return const Center(child: Text("Error"));
-                    } else {
-                      return SizedBox(
+                  Expanded(
+                    child: Card(
+                      child: SizedBox(
                         width: double.infinity,
                         child: Padding(
                           padding: EdgeInsets.all(8),
@@ -130,18 +133,17 @@ class _BehavioralPatternsViewState extends State<BehavioralPatternsView> {
                                 FrequencyHeatmap(
                                   frequencyHeatmap: state.frequencyHeatmap,
                                 ),
-                                Divider(),
                               ],
                             ),
                           ),
                         ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
-          ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+          },
         ),
       ),
     );
