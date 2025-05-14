@@ -13,7 +13,7 @@ dependencies:
   call_log:
     path: packages/call_log
   flutter_bloc: ^9.1.0
-  fl_chart: ^0.70.2
+  fl_chart: ^1.0.0
   shared_preferences: ^2.5.2
   equatable: ^2.0.7
   shimmer: ^3.0.0
