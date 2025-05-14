@@ -112,22 +112,22 @@ class _SettingsViewState extends State<SettingsView> {
                 );
               },
             ),
-            Divider(),
-            ListTile(
-              title: Text(
-                "Privacy",
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
-              ),
-            ),
-            ListTile(
-              title: const Text('Send Crash Reports'),
-              leading: Icon(Icons.bug_report),
-              subtitle: const Text(
-                'Allow Phone Recap to send crash reports, which help us improve the app.',
-              ),
-              trailing: Switch(value: false, onChanged: (value) {}),
-              onTap: () {},
-            ),
+            // Divider(),
+            // ListTile(
+            //   title: Text(
+            //     "Privacy",
+            //     style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            //   ),
+            // ),
+            // ListTile(
+            //   title: const Text('Send Crash Reports'),
+            //   leading: Icon(Icons.bug_report),
+            //   subtitle: const Text(
+            //     'Allow Phone Recap to send crash reports, which help us improve the app.',
+            //   ),
+            //   trailing: Switch(value: false, onChanged: (value) {}),
+            //   onTap: () {},
+            // ),
             Divider(),
             ListTile(
               title: Text(
@@ -160,12 +160,12 @@ class _SettingsViewState extends State<SettingsView> {
                 }
               },
             ),
-            ListTile(
-              title: const Text('License'),
-              leading: Icon(Icons.copyright),
-              subtitle: const Text('MIT License'),
-              onTap: () {},
-            ),
+            // ListTile(
+            //   title: const Text('License'),
+            //   leading: Icon(Icons.copyright),
+            //   subtitle: const Text('MIT License'),
+            //   onTap: () {},
+            // ),
             ListTile(
               title: const Text('Source Code'),
               leading: Icon(Icons.code),
