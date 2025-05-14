@@ -12,6 +12,7 @@ class ContactInsightsState extends Equatable {
     this.selectedContactPhoneNumber = "",
     this.answeredCalls = 0,
     this.outgoingCalls = 0,
+    this.incomingCalls = 0,
     this.longestStreak = const [],
   });
 
@@ -23,6 +24,7 @@ class ContactInsightsState extends Equatable {
   final int answeredCalls;
   final int totalDuration;
   final int outgoingCalls;
+  final int incomingCalls;
   final List<CallLogEntry> longestStreak;
 
   @override
@@ -33,6 +35,7 @@ class ContactInsightsState extends Equatable {
     selectedContactPhoneNumber,
     answeredCalls,
     outgoingCalls,
+    incomingCalls,
     longestStreak,
     totalCalls,
     totalDuration,

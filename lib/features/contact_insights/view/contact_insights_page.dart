@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_recap/core/utils/time.dart';
@@ -113,7 +114,7 @@ class _ContactInsightsViewState extends State<ContactInsightsView> {
                           }).toList(),
                     ),
                   ),
-                  // Expanded
+
                   Expanded(
                     child: Card(
                       child: SizedBox(
@@ -244,6 +245,155 @@ class _ContactInsightsViewState extends State<ContactInsightsView> {
                                                 : "Longest streak data unavailable",
                                           ),
                                         ),
+                                        Divider(),
+                                        ListTile(
+                                          title: Text(
+                                            "Call Distribution",
+                                            style: TextStyle(
+                                              color:
+                                                  Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                            ),
+                                          ),
+                                        ),
+                                        AspectRatio(
+                                          aspectRatio: 2,
+                                          child: BarChart(
+                                            BarChartData(
+                                              barGroups: [
+                                                BarChartGroupData(
+                                                  x: 0,
+
+                                                  barRods: [
+                                                    BarChartRodData(
+                                                      width: 100,
+                                                      color:
+                                                          Theme.of(
+                                                            context,
+                                                          ).colorScheme.primary,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                            Radius.circular(5),
+                                                          ),
+                                                      toY:
+                                                          state.incomingCalls
+                                                              .toDouble(),
+                                                    ),
+                                                  ],
+                                                  showingTooltipIndicators: [0],
+                                                ),
+                                                BarChartGroupData(
+                                                  x: 1,
+                                                  barRods: [
+                                                    BarChartRodData(
+                                                      width: 100,
+                                                      color:
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .secondary,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                            Radius.circular(5),
+                                                          ),
+                                                      toY:
+                                                          state.outgoingCalls
+                                                              .toDouble(),
+                                                    ),
+                                                  ],
+                                                  showingTooltipIndicators: [0],
+                                                ),
+                                              ],
+                                              barTouchData: BarTouchData(
+                                                enabled: false,
+                                                touchTooltipData:
+                                                    BarTouchTooltipData(
+                                                      getTooltipColor:
+                                                          (group) =>
+                                                              Colors
+                                                                  .transparent,
+                                                      tooltipPadding:
+                                                          EdgeInsets.zero,
+                                                      tooltipMargin: 8,
+                                                      getTooltipItem: (
+                                                        BarChartGroupData group,
+                                                        int groupIndex,
+                                                        BarChartRodData rod,
+                                                        int rodIndex,
+                                                      ) {
+                                                        return BarTooltipItem(
+                                                          rod.toY
+                                                              .round()
+                                                              .toString(),
+                                                          const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                              ),
+                                              titlesData: FlTitlesData(
+                                                show: true,
+                                                bottomTitles: AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                    showTitles: true,
+                                                    reservedSize: 30,
+                                                    getTitlesWidget: (
+                                                      value,
+                                                      meta,
+                                                    ) {
+                                                      switch (value.toInt()) {
+                                                        case 0:
+                                                          return const Text(
+                                                            "Incoming",
+                                                          );
+                                                        case 1:
+                                                          return const Text(
+                                                            "Outgoing",
+                                                          );
+                                                        default:
+                                                          return const SizedBox();
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                                leftTitles: const AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                    showTitles: false,
+                                                  ),
+                                                ),
+                                                topTitles: const AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                    showTitles: false,
+                                                  ),
+                                                ),
+                                                rightTitles: const AxisTitles(
+                                                  sideTitles: SideTitles(
+                                                    showTitles: false,
+                                                  ),
+                                                ),
+                                              ),
+                                              borderData: FlBorderData(
+                                                show: false,
+                                              ),
+                                              gridData: const FlGridData(
+                                                show: false,
+                                              ),
+                                              alignment:
+                                                  BarChartAlignment.spaceAround,
+                                              maxY:
+                                                  state.incomingCalls >
+                                                          state.outgoingCalls
+                                                      ? state.incomingCalls
+                                                              .toDouble() +
+                                                          25
+                                                      : state.outgoingCalls
+                                                              .toDouble() +
+                                                          25,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -251,7 +401,6 @@ class _ContactInsightsViewState extends State<ContactInsightsView> {
                       ),
                     ),
                   ),
-                  // Expanded
                 ],
               );
             }

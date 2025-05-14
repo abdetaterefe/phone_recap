@@ -131,6 +131,11 @@ class ContactInsightsBloc
                   .where((entry) => entry.callType == CallType.outgoing)
                   .length;
 
+          final incomingCalls =
+              filteredCalls
+                  .where((entry) => entry.callType == CallType.incoming)
+                  .length;
+
           final answeredCalls =
               filteredCalls
                   .where(
@@ -181,6 +186,7 @@ class ContactInsightsBloc
               selectedContactPhoneNumber: event.phoneNumber,
               answeredCalls: answeredCalls,
               outgoingCalls: outgoingCalls,
+              incomingCalls: incomingCalls,
               longestStreak: streaks.first,
             ),
           );
