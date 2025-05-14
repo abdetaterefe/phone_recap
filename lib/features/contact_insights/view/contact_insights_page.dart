@@ -188,14 +188,14 @@ class _ContactInsightsViewState extends State<ContactInsightsView> {
                                         ),
                                         ListTile(
                                           title: Text(
-                                            "${Utils.persent(state.answeredCalls, state.totalCalls)}%",
+                                            "${Utils.persent(state.answeredCalls, state.outgoingCalls)}%",
                                             style:
                                                 Theme.of(
                                                   context,
                                                 ).textTheme.titleLarge,
                                           ),
                                           subtitle: Text(
-                                            "${state.answeredCalls} calls have been answered out of ${state.totalCalls} calls",
+                                            "${state.answeredCalls} calls have been answered out of ${state.outgoingCalls} calls",
                                           ),
                                         ),
                                         Divider(),

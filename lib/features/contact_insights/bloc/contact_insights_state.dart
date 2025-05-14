@@ -11,6 +11,7 @@ class ContactInsightsState extends Equatable {
     this.totalDuration = 0,
     this.selectedContactPhoneNumber = "",
     this.answeredCalls = 0,
+    this.outgoingCalls = 0,
     this.longestStreak = const [],
   });
 
@@ -19,8 +20,9 @@ class ContactInsightsState extends Equatable {
   final List<Map<String, String>> contacts;
   final double averageDuration;
   final int totalCalls;
-  final int totalDuration;
   final int answeredCalls;
+  final int totalDuration;
+  final int outgoingCalls;
   final List<CallLogEntry> longestStreak;
 
   @override
@@ -30,6 +32,7 @@ class ContactInsightsState extends Equatable {
     averageDuration,
     selectedContactPhoneNumber,
     answeredCalls,
+    outgoingCalls,
     longestStreak,
     totalCalls,
     totalDuration,

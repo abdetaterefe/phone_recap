@@ -110,7 +110,6 @@ class ContactInsightsBloc
                 )
                 .toList()
               ..sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
-        ;
 
         if (filteredCalls.isEmpty) {
           emit(
@@ -127,10 +126,18 @@ class ContactInsightsBloc
           );
           final averageDuration = totalDuration / totalCalls;
 
+          final outgoingCalls =
+              filteredCalls
+                  .where((entry) => entry.callType == CallType.outgoing)
+                  .length;
+
           final answeredCalls =
               filteredCalls
                   .where(
-                    (entry) => entry.duration != null && entry.duration! > 0,
+                    (entry) =>
+                        entry.duration != null &&
+                        entry.duration! > 0 &&
+                        entry.callType == CallType.outgoing,
                   )
                   .length;
 
@@ -173,6 +180,7 @@ class ContactInsightsBloc
               totalDuration: totalDuration,
               selectedContactPhoneNumber: event.phoneNumber,
               answeredCalls: answeredCalls,
+              outgoingCalls: outgoingCalls,
               longestStreak: streaks.first,
             ),
           );
