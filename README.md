@@ -9,35 +9,34 @@ Phone Recap is an app that scans your call history and shows you useful stats an
 - [x] View Contact Specific Calls Insights
 - [x] View Behavior Patterns
 - [x] View Advanced Metrics
-- [ ] View Comparative Analysis
+- [x] View Comparative Analysis
 - [x] Notifications
-- [ ] Crash Reporting
 
-<!-- ## Features Details -->
+## Features Details
 
-<!-- ### View Total Calls Summary
+### View Total Calls Summary
 
-This feature allows you to view a summary of all your calls, including the total number of calls duration, the total number of calls received, and the total duration of calls.
+Provides an overview of your call history, including total call duration, average call length, top contacts by call time, and a visual trend of your call volume over time.
 
 ### View Monthly Calls Summary
 
-This feature allows you to view a summary of your calls for each month, including the total number of calls made, the total number of calls received, and the total duration of calls.
+Offers a detailed breakdown of your call activity for a selected month. See total calls, total duration, incoming/outgoing call distribution, longest calls, most frequent contacts (by call duration and call count), busiest day, and a monthly calendar view of call activity.
 
 ### View Contact Specific Calls Insights
 
-This feature allows you to view insights about a specific contact, including the total number of calls made, the total number of calls received, and the total duration of calls.
+Displays detailed statistics for individual contacts, including total calls, average call duration, response rate, longest call streak, and a breakdown of incoming and outgoing calls.
 
-## View Behavior Patterns
+### View Behavior Patterns
 
-This feature allows you to view patterns of behavior, such as the number of calls made to a specific contact, the number of calls received from a specific contact, and the duration of calls made to a specific contact.
+Visually analyzes your calling habits to identify patterns in call frequency by day of the week and time of day.
 
-## View Advanced Metrics
+### View Advanced Metrics
 
-This feature allows you to view advanced metrics, such as the number of calls made to a specific contact, the number of calls received from a specific contact, and the duration of calls made to a specific contact.
+Presents in-depth metrics about your call behavior. The current view shows the percentage breakdown of unanswered calls into missed, rejected, and blocked categories.
 
-## View Comparative Analysis
+### View Comparative Analysis
 
-This feature allows you to compare your calls to other people or groups, such as your friends or colleagues. You can view the total number of calls made, the total number of calls received, and the total duration of calls. -->
+Allows you to compare your call statistics between different contacts, showing differences in total calls, total duration, average duration, call distribution (incoming/outgoing), and the last call time.
 
 ## Contributing
 
