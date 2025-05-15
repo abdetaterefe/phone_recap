@@ -17,19 +17,19 @@ class TotalSummaryTile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
-          title: Text(
-            "Total",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        Text(
+          "Total",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
-        ListTile(
-          title: Text(
-            totalCalls.toString(),
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          subtitle: Text(TimeUtils.formatDuration(totalsDuration)),
+        const SizedBox(height: 8),
+        Text(
+          "${totalCalls.toString()} Calls",
+          style: Theme.of(context).textTheme.titleLarge,
         ),
+        Text(TimeUtils.formatDuration(totalsDuration)),
       ],
     );
   }

@@ -4,6 +4,7 @@ enum Status { loading, complete, error }
 
 class HomeState extends Equatable {
   const HomeState({
+    this.status = Status.loading,
     this.totalDuration = 0,
     this.averageDuration = 0,
     this.topContactsByDuration = const [
@@ -12,7 +13,10 @@ class HomeState extends Equatable {
       MapEntry("A", 0),
     ],
     this.callVolumeChartData = const [],
-    this.status = Status.loading,
+    this.frequencyHeatmap = const {},
+    this.missedCalls = 0,
+    this.rejectedCalls = 0,
+    this.blockedCalls = 0,
   });
 
   final Status status;
@@ -20,6 +24,10 @@ class HomeState extends Equatable {
   final double averageDuration;
   final List<MapEntry<String, int>> topContactsByDuration;
   final List<FlSpot> callVolumeChartData;
+  final Map<int, Map<int, int>> frequencyHeatmap;
+  final int missedCalls;
+  final int rejectedCalls;
+  final int blockedCalls;
 
   @override
   List<Object> get props => [
@@ -28,5 +36,9 @@ class HomeState extends Equatable {
     averageDuration,
     topContactsByDuration,
     callVolumeChartData,
+    frequencyHeatmap,
+    missedCalls,
+    rejectedCalls,
+    blockedCalls,
   ];
 }

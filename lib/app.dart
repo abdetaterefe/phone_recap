@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phone_recap/core/services/services.dart';
 import 'package:phone_recap/core/theme/theme.dart';
+import 'package:phone_recap/features/comparative_analytics/comparative_analytics.dart';
+import 'package:phone_recap/features/contact_insights/contact_insights.dart';
 import 'package:phone_recap/features/home/home.dart';
-import 'package:phone_recap/features/analytics/view/analytics_page.dart';
-import 'package:phone_recap/features/settings/view/settings_page.dart';
+import 'package:phone_recap/features/settings/settings.dart';
+import 'package:phone_recap/features/summaries/summaries.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -17,7 +19,9 @@ class _AppState extends State<App> {
   int currentPageIndex = 0;
   final List<Widget> pages = [
     const HomePage(),
-    const AnalyticsPage(),
+    const SummariesPage(),
+    const ContactInsightsPage(),
+    const ComparativeAnalyticsPage(),
     const SettingsPage(),
   ];
   @override
@@ -43,9 +47,19 @@ class _AppState extends State<App> {
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  selectedIcon: Icon(Icons.analytics),
-                  icon: Icon(Icons.analytics_outlined),
-                  label: 'Analytics',
+                  selectedIcon: Icon(Icons.summarize),
+                  icon: Icon(Icons.summarize_outlined),
+                  label: 'Summary',
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.person_search),
+                  icon: Icon(Icons.person_search_outlined),
+                  label: 'Contact',
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.compare_arrows),
+                  icon: Icon(Icons.compare_arrows_outlined),
+                  label: 'Compare',
                 ),
                 NavigationDestination(
                   selectedIcon: Icon(Icons.settings),

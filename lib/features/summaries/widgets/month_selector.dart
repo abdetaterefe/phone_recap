@@ -6,11 +6,13 @@ class MonthSelector extends StatelessWidget {
     required this.date,
     required this.onPreviousMonth,
     required this.onNextMonth,
+    required this.onToday,
   });
 
   final String date;
   final Function onPreviousMonth;
   final Function onNextMonth;
+  final Function onToday;
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,17 @@ class MonthSelector extends StatelessWidget {
               icon: const Icon(Icons.arrow_left_rounded),
             ),
             Text(date, style: Theme.of(context).textTheme.titleLarge),
-            IconButton.filled(
-              onPressed: () => onNextMonth(),
-              icon: const Icon(Icons.arrow_right_rounded),
+            Row(
+              children: [
+                IconButton.filled(
+                  onPressed: () => onNextMonth(),
+                  icon: const Icon(Icons.arrow_right_rounded),
+                ),
+                IconButton.filled(
+                  onPressed: () => onToday(),
+                  icon: const Icon(Icons.today_rounded),
+                ),
+              ],
             ),
           ],
         ),

@@ -152,12 +152,14 @@ class _CalendarSectionState extends State<CalendarSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
-          title: Text(
-            "Calendar",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        Text(
+          "Calendar",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
+        const SizedBox(height: 8),
         _buildDaysOfWeek(),
         _buildCalendarGrid(),
       ],

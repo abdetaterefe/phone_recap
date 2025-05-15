@@ -24,12 +24,14 @@ class CallDistributionSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
-          title: Text(
-            "Call Distribution",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        Text(
+          "Call Distribution",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
+        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -41,15 +43,13 @@ class CallDistributionSection extends StatelessWidget {
                     children: [
                       const Text("Incoming"),
                       const Divider(),
-                      ListTile(
-                        title: Text(
-                          incommingCalls.length.toString(),
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        subtitle: Text(
-                          TimeUtils.formatDuration(incommingCallsDuration),
-                          style: TextStyle(fontSize: 12),
-                        ),
+                      Text(
+                        "${incommingCalls.length.toString()} Calls",
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      Text(
+                        TimeUtils.formatDuration(incommingCallsDuration),
+                        style: TextStyle(fontSize: 12),
                       ),
                     ],
                   ),
@@ -64,15 +64,13 @@ class CallDistributionSection extends StatelessWidget {
                     children: [
                       const Text("Outgoing"),
                       const Divider(),
-                      ListTile(
-                        title: Text(
-                          outgoingCalls.length.toString(),
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        subtitle: Text(
-                          TimeUtils.formatDuration(outgoingCallsDuration),
-                          style: TextStyle(fontSize: 12),
-                        ),
+                      Text(
+                        "${outgoingCalls.length.toString()} Calls",
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      Text(
+                        TimeUtils.formatDuration(outgoingCallsDuration),
+                        style: TextStyle(fontSize: 12),
                       ),
                     ],
                   ),

@@ -8,36 +8,51 @@ class TopContactsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card.filled(
+    return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Top Contacts', style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'Top Contacts',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             Divider(),
-            ListView.builder(
+            ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: topContactsByDuration.length,
+              separatorBuilder: (context, index) => SizedBox(height: 8),
               itemBuilder: (context, index) {
                 final entry = topContactsByDuration[index];
-                return ListTile(
-                  title: Text(entry.key),
-                  leading: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    child: Text(
-                      entry.key[0],
-                      style: TextStyle(
-                        color:
-                            Theme.of(context).colorScheme.brightness ==
-                                    Brightness.dark
-                                ? Colors.black
-                                : Colors.white,
+                return Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      child: Text(
+                        entry.key[0],
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.brightness ==
+                                      Brightness.dark
+                                  ? Colors.black
+                                  : Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  subtitle: Text(TimeUtils.formatDuration(entry.value)),
+                    SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          entry.key,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        Text(TimeUtils.formatDuration(entry.value)),
+                      ],
+                    ),
+                  ],
                 );
               },
             ),

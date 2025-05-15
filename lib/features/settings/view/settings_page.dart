@@ -65,123 +65,124 @@ class _SettingsViewState extends State<SettingsView> {
     };
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              title: Text(
-                "Appearance",
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                title: Text(
+                  "Appearance",
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.palette),
-              title: const Text('App Theme'),
-              subtitle: Text(themeNameMap[currentTheme] ?? currentTheme.name),
-              onTap: () => _showThemeBottomSheet(context),
-            ),
-            Divider(),
-            ListTile(
-              title: Text(
-                "Options",
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ListTile(
+                leading: Icon(Icons.palette),
+                title: const Text('App Theme'),
+                subtitle: Text(themeNameMap[currentTheme] ?? currentTheme.name),
+                onTap: () => _showThemeBottomSheet(context),
               ),
-            ),
-            BlocBuilder<NotificationBloc, NotificationState>(
-              builder: (context, state) {
-                return ListTile(
-                  title: const Text('Notifications'),
-                  leading: Icon(Icons.notifications),
-                  subtitle: const Text(
-                    'Notification are sent once a week on Sundays to remind you to check your Recaps.',
-                  ),
-                  trailing: Switch(
-                    value: state.isEnabled,
-                    onChanged:
-                        (value) =>
-                            _handleNotificationToggle(context, state, value),
-                  ),
-                  onTap:
-                      () => _handleNotificationToggle(
-                        context,
-                        state,
-                        !state.isEnabled,
-                      ),
-                );
-              },
-            ),
-            // Divider(),
-            // ListTile(
-            //   title: Text(
-            //     "Privacy",
-            //     style: TextStyle(color: Theme.of(context).colorScheme.primary),
-            //   ),
-            // ),
-            // ListTile(
-            //   title: const Text('Send Crash Reports'),
-            //   leading: Icon(Icons.bug_report),
-            //   subtitle: const Text(
-            //     'Allow Phone Recap to send crash reports, which help us improve the app.',
-            //   ),
-            //   trailing: Switch(value: false, onChanged: (value) {}),
-            //   onTap: () {},
-            // ),
-            Divider(),
-            ListTile(
-              title: Text(
-                "About",
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              Divider(),
+              ListTile(
+                title: Text(
+                  "Options",
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
               ),
-            ),
-            FutureBuilder(
-              future: PackageInfo.fromPlatform(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return SizedBox();
-                } else if (snapshot.hasData) {
-                  final packageInfo = snapshot.data!;
+              BlocBuilder<NotificationBloc, NotificationState>(
+                builder: (context, state) {
                   return ListTile(
-                    title: const Text('Version'),
-                    leading: Icon(Icons.info),
-                    subtitle: Text(packageInfo.version),
-                    onTap: () async {
-                      final url = Uri.parse(
-                        'https://github.com/abdetaterefe/phone_recap/releases',
-                      );
-                      if (!await launchUrl(url)) {
-                        throw Exception('Could not launch $url');
-                      }
-                    },
+                    title: const Text('Notifications'),
+                    leading: Icon(Icons.notifications),
+                    subtitle: const Text(
+                      'Notification are sent once a week on Sundays to remind you to check your Recaps.',
+                    ),
+                    trailing: Switch(
+                      value: state.isEnabled,
+                      onChanged:
+                          (value) =>
+                              _handleNotificationToggle(context, state, value),
+                    ),
+                    onTap:
+                        () => _handleNotificationToggle(
+                          context,
+                          state,
+                          !state.isEnabled,
+                        ),
                   );
-                } else {
-                  return SizedBox();
-                }
-              },
-            ),
-            // ListTile(
-            //   title: const Text('License'),
-            //   leading: Icon(Icons.copyright),
-            //   subtitle: const Text('MIT License'),
-            //   onTap: () {},
-            // ),
-            ListTile(
-              title: const Text('Source Code'),
-              leading: Icon(Icons.code),
-              subtitle: const Text(
-                'https://github.com/abdetaterefe/phone_recap',
+                },
               ),
-              onTap: () async {
-                final url = Uri.parse(
+              // Divider(),
+              // ListTile(
+              //   title: Text(
+              //     "Privacy",
+              //     style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              //   ),
+              // ),
+              // ListTile(
+              //   title: const Text('Send Crash Reports'),
+              //   leading: Icon(Icons.bug_report),
+              //   subtitle: const Text(
+              //     'Allow Phone Recap to send crash reports, which help us improve the app.',
+              //   ),
+              //   trailing: Switch(value: false, onChanged: (value) {}),
+              //   onTap: () {},
+              // ),
+              Divider(),
+              ListTile(
+                title: Text(
+                  "About",
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
+              ),
+              FutureBuilder(
+                future: PackageInfo.fromPlatform(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return SizedBox();
+                  } else if (snapshot.hasData) {
+                    final packageInfo = snapshot.data!;
+                    return ListTile(
+                      title: const Text('Version'),
+                      leading: Icon(Icons.info),
+                      subtitle: Text(packageInfo.version),
+                      onTap: () async {
+                        final url = Uri.parse(
+                          'https://github.com/abdetaterefe/phone_recap/releases',
+                        );
+                        if (!await launchUrl(url)) {
+                          throw Exception('Could not launch $url');
+                        }
+                      },
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                },
+              ),
+              // ListTile(
+              //   title: const Text('License'),
+              //   leading: Icon(Icons.copyright),
+              //   subtitle: const Text('MIT License'),
+              //   onTap: () {},
+              // ),
+              ListTile(
+                title: const Text('Source Code'),
+                leading: Icon(Icons.code),
+                subtitle: const Text(
                   'https://github.com/abdetaterefe/phone_recap',
-                );
-                if (!await launchUrl(url)) {
-                  throw Exception('Could not launch $url');
-                }
-              },
-            ),
-          ],
+                ),
+                onTap: () async {
+                  final url = Uri.parse(
+                    'https://github.com/abdetaterefe/phone_recap',
+                  );
+                  if (!await launchUrl(url)) {
+                    throw Exception('Could not launch $url');
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

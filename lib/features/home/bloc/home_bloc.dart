@@ -92,6 +92,44 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             );
           }).toList();
 
+      final heatmap = <int, Map<int, int>>{};
+      for (int day = DateTime.monday; day <= DateTime.sunday; day++) {
+        heatmap[day] = {for (int hour = 0; hour < 24; hour++) hour: 0};
+      }
+      for (final entry in entries) {
+        final callDate = DateTime.fromMillisecondsSinceEpoch(entry.timestamp!);
+        final dayOfWeek = callDate.weekday;
+        final hourOfDay = callDate.hour;
+
+        heatmap[dayOfWeek]![hourOfDay] = heatmap[dayOfWeek]![hourOfDay]! + 1;
+      }
+
+      var largestCount = 0;
+      for (final dayEntry in heatmap.values) {
+        for (final count in dayEntry.values) {
+          if (count > largestCount) largestCount = count;
+        }
+      }
+      if (largestCount == 0) return;
+
+      for (final dayEntry in heatmap.entries) {
+        for (final hourEntry in dayEntry.value.entries) {
+          final normalizedValue =
+              (hourEntry.value / largestCount * 255).clamp(0, 255).toInt();
+          heatmap[dayEntry.key]![hourEntry.key] = normalizedValue;
+        }
+      }
+
+      final missedCalls = entries.where(
+        (entry) => entry.callType == CallType.missed,
+      );
+      final rejectedCalls = entries.where(
+        (entry) => entry.callType == CallType.rejected,
+      );
+      final blockedCalls = entries.where(
+        (entry) => entry.callType == CallType.blocked,
+      );
+
       emit(
         HomeState(
           status: Status.complete,
@@ -99,6 +137,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           topContactsByDuration: topContactsByDuration,
           totalDuration: totalDuration,
           callVolumeChartData: callVolumeChartData,
+          frequencyHeatmap: heatmap,
+          missedCalls: missedCalls.length,
+          rejectedCalls: rejectedCalls.length,
+          blockedCalls: blockedCalls.length,
         ),
       );
     } catch (e) {

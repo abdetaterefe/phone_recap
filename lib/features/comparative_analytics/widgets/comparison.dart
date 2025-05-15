@@ -11,116 +11,114 @@ class Comparison extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
-          title: Text(
-            "Total Calls",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        Text(
+          "Total",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
+        SizedBox(height: 8),
         Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  state.comparisonResult.firstStats.totalCalls.toString(),
+                  "${state.comparisonResult.firstStats.totalCalls.toString()} Calls",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 Text(
-                  state.comparisonResult.secondStats.totalCalls.toString(),
+                  "${state.comparisonResult.secondStats.totalCalls.toString()} Calls",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),
+            SizedBox(height: 8),
             Text(
-              "Difference: ${state.comparisonResult.firstStats.totalCalls - state.comparisonResult.secondStats.totalCalls}",
+              "Difference: ${(state.comparisonResult.firstStats.totalCalls - state.comparisonResult.secondStats.totalCalls).abs()} Calls",
             ),
           ],
         ),
         Divider(),
-        ListTile(
-          title: Text(
-            "Total Duration",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        Text(
+          "Total Duration",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
+        SizedBox(height: 8),
         Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text(
-                      TimeUtils.formatDuration(
-                        state.comparisonResult.firstStats.totalDuration,
-                      ),
-                    ),
+                Text(
+                  TimeUtils.formatDuration(
+                    state.comparisonResult.firstStats.totalDuration,
                   ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Expanded(
-                  child: ListTile(
-                    title: Text(
-                      TimeUtils.formatDuration(
-                        state.comparisonResult.secondStats.totalDuration,
-                      ),
-                    ),
+                Text(
+                  TimeUtils.formatDuration(
+                    state.comparisonResult.secondStats.totalDuration,
                   ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),
+            SizedBox(height: 8),
             Text(
-              "Difference: ${TimeUtils.formatDuration(state.comparisonResult.firstStats.totalDuration - state.comparisonResult.secondStats.totalDuration)}",
+              "Difference: ${TimeUtils.formatDuration((state.comparisonResult.firstStats.totalDuration - state.comparisonResult.secondStats.totalDuration).abs())}",
             ),
           ],
         ),
         Divider(),
-        ListTile(
-          title: Text(
-            "Average Duration",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        Text(
+          "Average Duration",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
+        SizedBox(height: 8),
         Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: ListTile(
-                    title: Text(
-                      TimeUtils.formatDuration(
-                        state.comparisonResult.firstStats.averageDuration
-                            .toInt(),
-                      ),
-                    ),
+                Text(
+                  TimeUtils.formatDuration(
+                    state.comparisonResult.firstStats.averageDuration.toInt(),
                   ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Expanded(
-                  child: ListTile(
-                    title: Text(
-                      TimeUtils.formatDuration(
-                        state.comparisonResult.secondStats.averageDuration
-                            .toInt(),
-                      ),
-                    ),
+                Text(
+                  TimeUtils.formatDuration(
+                    state.comparisonResult.secondStats.averageDuration.toInt(),
                   ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),
+            SizedBox(height: 8),
             Text(
-              "Difference: ${TimeUtils.formatDuration(state.comparisonResult.firstStats.averageDuration.toInt() - state.comparisonResult.secondStats.averageDuration.toInt())}",
+              "Difference: ${TimeUtils.formatDuration((state.comparisonResult.firstStats.averageDuration - state.comparisonResult.secondStats.averageDuration).toInt().abs())}",
             ),
           ],
         ),
         Divider(),
-        ListTile(
-          title: Text(
-            "Call Distribution",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        Text(
+          "Call Distribution",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
+        SizedBox(height: 8),
         Row(
           children: [
             Expanded(
@@ -131,7 +129,6 @@ class Comparison extends StatelessWidget {
                     barGroups: [
                       BarChartGroupData(
                         x: 0,
-
                         barRods: [
                           BarChartRodData(
                             width: 50,
@@ -323,36 +320,35 @@ class Comparison extends StatelessWidget {
           ],
         ),
         Divider(),
-        ListTile(
-          title: Text(
-            "Call Presences",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        Text(
+          "Call Presences",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
+        SizedBox(height: 8),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: ListTile(
-                title: Text(
+            Column(
+              children: [
+                Text(
                   state.comparisonResult.firstStats.dayOfWeekPreference,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                subtitle: Text(
-                  "${state.comparisonResult.firstStats.timePreference}:00",
-                ),
-              ),
+                Text("${state.comparisonResult.firstStats.timePreference}:00"),
+              ],
             ),
-            Expanded(
-              child: ListTile(
-                title: Text(
+
+            Column(
+              children: [
+                Text(
                   state.comparisonResult.secondStats.dayOfWeekPreference,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                subtitle: Text(
-                  "${state.comparisonResult.secondStats.timePreference}:00",
-                ),
-              ),
+                Text("${state.comparisonResult.secondStats.timePreference}:00"),
+              ],
             ),
           ],
         ),

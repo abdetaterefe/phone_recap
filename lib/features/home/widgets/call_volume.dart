@@ -8,7 +8,7 @@ class CallVolumeChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card.filled(
+    return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -19,7 +19,7 @@ class CallVolumeChartSection extends StatelessWidget {
               children: [
                 Text(
                   'Call Volume Trend',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Tooltip(
                   triggerMode: TooltipTriggerMode.tap,

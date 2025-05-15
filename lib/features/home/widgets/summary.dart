@@ -13,13 +13,13 @@ class SummarySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card.filled(
+    return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Summary', style: Theme.of(context).textTheme.titleLarge),
+            Text('Summary', style: Theme.of(context).textTheme.titleMedium),
             Divider(),
             Column(
               children: <Widget>[
@@ -31,7 +31,7 @@ class SummarySection extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(
-                          Icons.call,
+                          Icons.call_outlined,
                           size: 32,
                           color:
                               Theme.of(context).colorScheme.brightness ==
@@ -43,7 +43,7 @@ class SummarySection extends StatelessWidget {
                     ),
                     SizedBox(width: 8),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Text(
                           TimeUtils.formatDuration(totalDuration),
@@ -65,7 +65,7 @@ class SummarySection extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(
-                          Icons.timer,
+                          Icons.access_time_outlined,
                           size: 32,
                           color:
                               Theme.of(context).colorScheme.brightness ==
@@ -77,7 +77,7 @@ class SummarySection extends StatelessWidget {
                     ),
                     SizedBox(width: 8),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         SizedBox(height: 8),
                         Text(

@@ -7,23 +7,38 @@ class FrequencyHeatmap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.5,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _TimeLegend(),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              children: [
-                _DayLabels(),
-                const SizedBox(height: 4),
-                Expanded(child: _HeatmapGrid(data: frequencyHeatmap)),
-              ],
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Frequency Heatmap',
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-          ),
-        ],
+            Divider(),
+            AspectRatio(
+              aspectRatio: 1.5,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _TimeLegend(),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        _DayLabels(),
+                        const SizedBox(height: 4),
+                        Expanded(child: _HeatmapGrid(data: frequencyHeatmap)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

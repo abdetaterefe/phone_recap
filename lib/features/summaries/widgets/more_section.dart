@@ -93,79 +93,152 @@ class MoreSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
-          title: Text(
-            "More",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
-          ),
-        ),
-        ListTile(
-          title: const Text("Longest Calls"),
-          subtitle: Text(
-            "${longestCall?.name ?? longestCall?.number ?? 'Unknown'} - ${longestCall?.callType?.name}",
-          ),
-          trailing: Text(TimeUtils.formatDuration(longestCall?.duration ?? 0)),
-          onTap: () {},
-        ),
-        ListTile(
-          title: const Text("Most Frequent Calls"),
-          subtitle: Text(
-            mostFrequentCallsByDuration.keys.isEmpty
-                ? "No calls"
-                : mostFrequentCallsByDuration.keys.first,
-          ),
-          trailing: Text(
-            TimeUtils.formatDuration(
-              mostFrequentCallsByDuration.values.isEmpty
-                  ? 0
-                  : mostFrequentCallsByDuration.values.first,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Longest Call",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "${longestCall?.name ?? longestCall?.number ?? 'Unknown'} - ${longestCall?.callType?.name}",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ],
             ),
-          ),
-          onTap: () {},
+            Text(TimeUtils.formatDuration(longestCall?.duration ?? 0)),
+          ],
         ),
-        ListTile(
-          title: const Text("Most Incoming Calls"),
-          subtitle: Text(
-            mostIncomingCalls.entries.isEmpty
-                ? "No calls"
-                : mostIncomingCalls.entries.first.key,
-          ),
-          trailing: Text(
-            mostIncomingCalls.entries.isEmpty
-                ? "No calls"
-                : mostIncomingCalls.entries.first.value.toString(),
-          ),
-          onTap: () {},
+        const Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Most Frequent Calls",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  mostFrequentCallsByDuration.keys.isEmpty
+                      ? "No calls"
+                      : mostFrequentCallsByDuration.keys.first,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ],
+            ),
+            Text(
+              TimeUtils.formatDuration(
+                mostFrequentCallsByDuration.values.isEmpty
+                    ? 0
+                    : mostFrequentCallsByDuration.values.first,
+              ),
+            ),
+          ],
         ),
-        ListTile(
-          title: const Text("Most Outgoing Calls"),
-          subtitle: Text(
-            mostOutgoingCalls.entries.isEmpty
-                ? "No calls"
-                : mostOutgoingCalls.entries.first.key,
-          ),
-          trailing: Text(
-            mostOutgoingCalls.entries.isEmpty
-                ? "No calls"
-                : mostOutgoingCalls.entries.first.value.toString(),
-          ),
-          onTap: () {},
+        const Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Most Incoming",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  mostIncomingCalls.entries.isEmpty
+                      ? "No calls"
+                      : mostIncomingCalls.entries.first.key,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ],
+            ),
+            Text(
+              mostIncomingCalls.entries.isEmpty
+                  ? "No calls"
+                  : "${mostIncomingCalls.entries.first.value.toString()} Calls",
+            ),
+          ],
         ),
-        ListTile(
-          title: Text('Most calls were on'),
-          subtitle: Text(
-            mostDayOfTheTalked.isNotEmpty
-                ? '${mostDayOfTheTalked.keys.elementAt(0)} - ${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)]} calls'
-                : 'Unknown',
-          ),
-          trailing: Text(
-            mostDayOfTheTalkedDuration.isNotEmpty
-                ? TimeUtils.formatDuration(
-                  mostDayOfTheTalkedDuration[mostDayOfTheTalked.keys.first]!,
-                )
-                : '0 hours',
-          ),
-          onTap: () {},
+        const Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Most Outgoing",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  mostOutgoingCalls.entries.isEmpty
+                      ? "No calls"
+                      : mostOutgoingCalls.entries.first.key,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ],
+            ),
+            Text(
+              mostOutgoingCalls.entries.isEmpty
+                  ? "No calls"
+                  : "${mostOutgoingCalls.entries.first.value.toString()} Calls",
+            ),
+          ],
+        ),
+        const Divider(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Most calls were on',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  mostDayOfTheTalked.isNotEmpty
+                      ? '${mostDayOfTheTalked.keys.elementAt(0)} - ${mostDayOfTheTalked[mostDayOfTheTalked.keys.elementAt(0)]} calls'
+                      : 'Unknown',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ],
+            ),
+            Text(
+              mostDayOfTheTalkedDuration.isNotEmpty
+                  ? TimeUtils.formatDuration(
+                    mostDayOfTheTalkedDuration[mostDayOfTheTalked.keys.first]!,
+                  )
+                  : '0 hours',
+            ),
+          ],
         ),
       ],
     );
