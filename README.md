@@ -4,54 +4,41 @@ Phone Recap is an app that scans your call history and shows you useful stats an
 
 ## Features
 
-- [x] View Total Calls Summary
-- [x] View Monthly Calls Summary
-- [x] View Contact Specific Calls Insights
-- [x] View Behavior Patterns
-- [x] View Advanced Metrics
-- [x] View Comparative Analysis
+- [x] Total Calls Summary
+- [x] Monthly Calls Summary
+- [x] Contact Specific Calls Insights
+- [x] Comparative Analysis
+- [x] Theme Changer
 - [x] Notifications
 
 ## Features Details
 
-### View Total Calls Summary
+### Total Calls Summary
 
-Provides an overview of your call history, including total call duration, average call length, top contacts by call time, and a visual trend of your call volume over time.
+Provides an overview of your call history, including total call duration, average call length, top contacts by call time, frequency by day of the week and time of day, breakdown of unanswered calls into missed, rejected, and blocked categories, and a visual trend of your call volume over time.
 
-### View Monthly Calls Summary
+### Monthly Calls Summary
 
 Offers a detailed breakdown of your call activity for a selected month. See total calls, total duration, incoming/outgoing call distribution, longest calls, most frequent contacts (by call duration and call count), busiest day, and a monthly calendar view of call activity.
 
-### View Contact Specific Calls Insights
+### Contact Specific Calls Insights
 
 Displays detailed statistics for individual contacts, including total calls, average call duration, response rate, longest call streak, and a breakdown of incoming and outgoing calls.
 
-### View Behavior Patterns
-
-Visually analyzes your calling habits to identify patterns in call frequency by day of the week and time of day.
-
-### View Advanced Metrics
-
-Presents in-depth metrics about your call behavior. The current view shows the percentage breakdown of unanswered calls into missed, rejected, and blocked categories.
-
-### View Comparative Analysis
+### Comparative Analysis
 
 Allows you to compare your call statistics between different contacts, showing differences in total calls, total duration, average duration, call distribution (incoming/outgoing), and the last call time.
 
 ## Screenshots
 
-| Home | Analytics | Settings |
-| --------------- | --------------- | --------------- |
-| ![photo_2025-05-14_05-36-57](https://github.com/user-attachments/assets/5b6d62ba-566a-4c45-8e0a-ce6b2b8c46a0) | ![photo_2025-05-14_05-37-02](https://github.com/user-attachments/assets/7575dffa-e7ac-499d-9fb8-78938f150ac2) | ![photo_2025-05-14_05-37-05](https://github.com/user-attachments/assets/582cac11-722e-4b56-8da6-e4ec9f54f6ee) |
+| Home| Summaries| Contact Insights|
+| ----- | ------ | ---------- |
+| ![photo_2025-05-15_01-39-04](https://github.com/user-attachments/assets/c3a23091-190a-4e28-bdf8-d02a8a3f8b18)| ![photo_2025-05-15_01-39-08](https://github.com/user-attachments/assets/7bcbc317-0caa-4f99-b2b9-6b37457bba47)| ![photo_2025-05-15_01-39-11](https://github.com/user-attachments/assets/0e0b8c1a-7ff7-4bc4-a6bc-cb59355a134b) |
 
-| Appearance | Summaries | Contact Insights |
-| --------------- | --------------- | --------------- |
-| ![photo_2025-05-14_05-37-07](https://github.com/user-attachments/assets/aa858299-8c1c-49c5-ac0b-7ba37b060399) | ![photo_2025-05-14_05-37-12](https://github.com/user-attachments/assets/cac9f1c4-0b45-462f-b627-78739c88d919) | ![photo_2025-05-14_05-37-15](https://github.com/user-attachments/assets/19ac94c4-4e13-48af-b1f2-55a32fab3156) |
 
-| Behavioral Patterns | Advanced Matrics | Comparative Analysis |
-| --------------- | --------------- | --------------- |
-| ![photo_2025-05-14_05-37-22](https://github.com/user-attachments/assets/034d9f0e-6580-48c2-abd6-7da4b5671ecd) | ![photo_2025-05-14_05-37-25](https://github.com/user-attachments/assets/d9edd53e-20e4-4bdf-b275-26013c60d3ba) | ![photo_2025-05-14_05-37-28](https://github.com/user-attachments/assets/32ceb99c-d2c9-4da9-aa6a-43d99a66ce57) |
-
+| Comparative Analysis| Settings| Theme Changer|
+| ---- | ------ | ------------- |
+|![photo_2025-05-15_01-39-13](https://github.com/user-attachments/assets/3c72d5e1-efb0-49ad-8639-06813ee54434) | ![photo_2025-05-15_01-39-15](https://github.com/user-attachments/assets/699df947-0518-4818-ac12-cbff52c98176) | ![photo_2025-05-15_01-39-16](https://github.com/user-attachments/assets/2bf49230-4200-4055-8799-558350b1bdee) |
 
 ## Contributing
 
