@@ -60,19 +60,40 @@ class ComparativeAnalyticsBloc
         );
       }
 
+      final Iterable<CallLogEntry> entries = await CallLog.query();
+
+      final contactsWithData =
+          contactsList
+              .where(
+                (c) => entries.any(
+                  (entry) =>
+                      entry.number == c['phoneNumber']!.replaceAll(' ', ''),
+                ),
+              )
+              .toList();
+
+      if (contactsWithData.length < 2) {
+        return emit(
+          ComparativeAnalyticsState(
+            status: Status.error,
+            errorMessage: 'Not enough contacts with call log data found',
+          ),
+        );
+      }
+
       final prefs = await SharedPreferences.getInstance();
       final firstNumber =
           prefs.getString("comparative_analytics_first_phone_number") ??
-          contactsList.first['phoneNumber']!;
+          contactsWithData[0]['phoneNumber']!;
       final secondNumber =
           prefs.getString('comparative_analytics_second_phone_number') ??
-          contactsList.elementAt(1)['phoneNumber']!;
+          contactsWithData[1]['phoneNumber']!;
 
       add(
         ComparativeAnalyticsCalculateEvent(
           firstPhoneNumber: firstNumber,
           secondPhoneNumber: secondNumber,
-          contacts: contactsList,
+          contacts: contactsWithData,
         ),
       );
     } catch (e) {

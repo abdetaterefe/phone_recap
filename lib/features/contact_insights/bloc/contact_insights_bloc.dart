@@ -19,74 +19,75 @@ class ContactInsightsBloc
     ContactInsightsLoadContactsEvent event,
     Emitter<ContactInsightsState> emit,
   ) async {
+    emit(ContactInsightsState());
     try {
-      emit(ContactInsightsState());
-      final contactsPermissionStatus = await Permission.contacts.request();
-      if (contactsPermissionStatus.isGranted) {
-        final callLogPermissionStatus = await Permission.phone.request();
-        if (callLogPermissionStatus.isGranted) {
-          final Iterable<CallLogEntry> entries = await CallLog.query();
-
-          final contacts = await FlutterContacts.getContacts(
-            withProperties: true,
-          );
-          final prefs = await SharedPreferences.getInstance();
-          final selectedPhoneNumber = prefs.getString(
-            "contact_insights_selected_phone_number",
-          );
-
-          final contactsList =
-              contacts
-                  .where((contact) => contact.phones.isNotEmpty)
-                  .expand(
-                    (contact) => contact.phones
-                        .where((phone) => !phone.number.contains("*"))
-                        .map(
-                          (phone) => {
-                            "displayName": contact.displayName,
-                            "phoneNumber": phone.number,
-                          },
-                        ),
-                  )
-                  .toList();
-
-          String? selectedNumber = selectedPhoneNumber;
-          selectedNumber ??= contactsList
-              .map((c) => c["phoneNumber"] as String)
-              .firstWhere(
-                (number) => entries.any(
-                  (entry) => entry.number == number.replaceAll(" ", ""),
-                ),
-              );
-
-          if (entries.isEmpty || contactsList.isEmpty) {
-            emit(
-              ContactInsightsState(
-                status: Status.empty,
-                contacts: contactsList,
-              ),
-            );
-            return;
-          }
-
-          add(
-            ContactInsightsCalculateEvent(
-              phoneNumber: selectedNumber,
-              contacts: contactsList,
-            ),
-          );
-
-          emit(
-            ContactInsightsState(
-              status: Status.complete,
-              contacts: contactsList,
-              selectedContactPhoneNumber: selectedNumber,
-            ),
-          );
-        }
-      } else {
-        emit(ContactInsightsState(status: Status.error));
+      final permissionStatus = await Permission.contacts.request();
+      if (!permissionStatus.isGranted) {
+        return emit(
+          ContactInsightsState(
+            status: Status.error,
+            errorMessage: 'Contacts permission not granted',
+          ),
+        );
       }
+      final contacts = await FlutterContacts.getContacts(withProperties: true);
+
+      final List<Map<String, String>> contactsList = [];
+      contacts.where((contact) => contact.phones.isNotEmpty).forEach((contact) {
+        final phones =
+            contact.phones
+                .where((phone) => !phone.number.contains("*"))
+                .toList();
+
+        for (var phone in phones) {
+          contactsList.add({
+            "displayName": contact.displayName,
+            "phoneNumber": phone.number,
+          });
+        }
+      });
+
+      if (contactsList.isEmpty) {
+        return emit(
+          ContactInsightsState(
+            status: Status.error,
+            errorMessage: 'No contacts found',
+          ),
+        );
+      }
+
+      final Iterable<CallLogEntry> entries = await CallLog.query();
+
+      final contactsWithData =
+          contactsList
+              .where(
+                (c) => entries.any(
+                  (entry) =>
+                      entry.number == c['phoneNumber']!.replaceAll(' ', ''),
+                ),
+              )
+              .toList();
+
+      if (contactsWithData.length < 2) {
+        return emit(
+          ContactInsightsState(
+            status: Status.error,
+            errorMessage: 'Not enough contacts with call log data found',
+          ),
+        );
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+      final selectedNumber =
+          prefs.getString("contact_insights_selected_phone_number") ??
+          contactsWithData[0]['phoneNumber']!;
+
+      add(
+        ContactInsightsCalculateEvent(
+          phoneNumber: selectedNumber,
+          contacts: contactsWithData,
+        ),
+      );
     } catch (e) {
       emit(ContactInsightsState(status: Status.error));
     }
