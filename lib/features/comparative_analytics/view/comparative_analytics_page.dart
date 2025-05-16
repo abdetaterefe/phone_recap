@@ -173,9 +173,21 @@ class _ComparativeAnalyticsViewState extends State<ComparativeAnalyticsView> {
                             padding: const EdgeInsets.all(16.0),
                             child:
                                 state.status == Status.error
-                                    ? ListTile(
-                                      title: Text("An error occurred"),
-                                      subtitle: Text(state.errorMessage),
+                                    ? Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "No Data",
+                                            style:
+                                                Theme.of(
+                                                  context,
+                                                ).textTheme.titleLarge,
+                                          ),
+                                          Text(state.errorMessage),
+                                        ],
+                                      ),
                                     )
                                     : SingleChildScrollView(
                                       child: Comparison(state: state),

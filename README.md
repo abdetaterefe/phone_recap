@@ -31,14 +31,13 @@ Allows you to compare your call statistics between different contacts, showing d
 
 ## Screenshots
 
-| Home| Summaries| Contact Insights|
-| ----- | ------ | ---------- |
-| ![photo_2025-05-15_01-39-04](https://github.com/user-attachments/assets/c3a23091-190a-4e28-bdf8-d02a8a3f8b18)| ![photo_2025-05-15_01-39-08](https://github.com/user-attachments/assets/7bcbc317-0caa-4f99-b2b9-6b37457bba47)| ![photo_2025-05-15_01-39-11](https://github.com/user-attachments/assets/0e0b8c1a-7ff7-4bc4-a6bc-cb59355a134b) |
+| Home                                                                                                          | Summaries                                                                                                     | Contact Insights                                                                                              |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| ![photo_2025-05-15_01-39-04](https://github.com/user-attachments/assets/c3a23091-190a-4e28-bdf8-d02a8a3f8b18) | ![photo_2025-05-15_01-39-08](https://github.com/user-attachments/assets/7bcbc317-0caa-4f99-b2b9-6b37457bba47) | ![photo_2025-05-15_01-39-11](https://github.com/user-attachments/assets/0e0b8c1a-7ff7-4bc4-a6bc-cb59355a134b) |
 
-
-| Comparative Analysis| Settings| Theme Changer|
-| ---- | ------ | ------------- |
-|![photo_2025-05-15_01-39-13](https://github.com/user-attachments/assets/3c72d5e1-efb0-49ad-8639-06813ee54434) | ![photo_2025-05-15_01-39-15](https://github.com/user-attachments/assets/699df947-0518-4818-ac12-cbff52c98176) | ![photo_2025-05-15_01-39-16](https://github.com/user-attachments/assets/2bf49230-4200-4055-8799-558350b1bdee) |
+| Comparative Analysis                                                                                          | Settings                                                                                                      | Theme Changer                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| ![photo_2025-05-15_01-39-13](https://github.com/user-attachments/assets/3c72d5e1-efb0-49ad-8639-06813ee54434) | ![photo_2025-05-15_01-39-15](https://github.com/user-attachments/assets/699df947-0518-4818-ac12-cbff52c98176) | ![photo_2025-05-15_01-39-16](https://github.com/user-attachments/assets/2bf49230-4200-4055-8799-558350b1bdee) |
 
 ## Contributing
 

@@ -116,13 +116,22 @@ class ComparativeAnalyticsBloc
         event.firstPhoneNumber,
         event.secondPhoneNumber,
       );
+
+      getDisplayName(String phoneNumber) {
+        final contact = event.contacts.firstWhere(
+          (c) => c["phoneNumber"] == phoneNumber,
+          orElse: () => {"displayName": phoneNumber},
+        );
+        return contact["displayName"];
+      }
+
       if (comparisonResult.firstStats.totalCalls == 0 &&
           comparisonResult.secondStats.totalCalls == 0) {
         emit(
           ComparativeAnalyticsState(
             status: Status.error,
             errorMessage:
-                'No calls found for ${event.contacts.where((c) => c["phoneNumber"] == event.firstPhoneNumber).first["displayName"]} or ${event.contacts.where((c) => c["phoneNumber"] == event.secondPhoneNumber).first["displayName"]}',
+                'No call data found for ${getDisplayName(event.firstPhoneNumber)} and ${getDisplayName(event.secondPhoneNumber)}',
             contacts: event.contacts,
             firstNumber: event.firstPhoneNumber,
             secondNumber: event.secondPhoneNumber,
@@ -133,7 +142,7 @@ class ComparativeAnalyticsBloc
           ComparativeAnalyticsState(
             status: Status.error,
             errorMessage:
-                'No calls found for ${event.contacts.where((c) => c["phoneNumber"] == event.firstPhoneNumber).first["displayName"]}',
+                'No call data were found for ${getDisplayName(event.firstPhoneNumber)}',
             contacts: event.contacts,
             firstNumber: event.firstPhoneNumber,
             secondNumber: event.secondPhoneNumber,
@@ -144,7 +153,7 @@ class ComparativeAnalyticsBloc
           ComparativeAnalyticsState(
             status: Status.error,
             errorMessage:
-                'No calls found for ${event.contacts.where((c) => c["phoneNumber"] == event.secondPhoneNumber).first["displayName"]}',
+                'No call data were found for ${getDisplayName(event.secondPhoneNumber)}',
             contacts: event.contacts,
             firstNumber: event.firstPhoneNumber,
             secondNumber: event.secondPhoneNumber,

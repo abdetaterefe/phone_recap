@@ -142,7 +142,15 @@ class _ContactInsightsViewState extends State<ContactInsightsView> {
                             padding: const EdgeInsets.all(16.0),
                             child:
                                 state.status == Status.empty
-                                    ? Center(child: Text("No Data"))
+                                    ? Center(
+                                      child: Text(
+                                        "No Data",
+                                        style:
+                                            Theme.of(
+                                              context,
+                                            ).textTheme.titleLarge,
+                                      ),
+                                    )
                                     : SingleChildScrollView(
                                       child: Column(
                                         crossAxisAlignment:
