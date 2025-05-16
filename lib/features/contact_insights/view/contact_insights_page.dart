@@ -102,8 +102,14 @@ class _ContactInsightsViewState extends State<ContactInsightsView> {
                               initialSelection:
                                   state.selectedContactPhoneNumber,
                               onSelected: (String? value) {
+                                var displayName =
+                                    state.contacts.firstWhere(
+                                      (contact) =>
+                                          contact["phoneNumber"] == value,
+                                    )["displayName"];
                                 context.read<ContactInsightsBloc>().add(
                                   ContactInsightsCalculateEvent(
+                                    displayName: displayName ?? "",
                                     phoneNumber: value ?? "",
                                     contacts: state.contacts,
                                   ),

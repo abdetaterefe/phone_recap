@@ -11,6 +11,8 @@ class ComparativeAnalyticsState extends Equatable {
     this.contacts = const [],
     this.firstNumber = "",
     this.secondNumber = "",
+    this.firstDisplayName = "",
+    this.secondDisplayName = "",
     this.comparisonResult = const ComparisonResult(),
   });
 
@@ -21,6 +23,8 @@ class ComparativeAnalyticsState extends Equatable {
   final List<Map<String, String>> contacts;
   final String firstNumber;
   final String secondNumber;
+  final String firstDisplayName;
+  final String secondDisplayName;
 
   final ComparisonResult comparisonResult;
 
@@ -33,5 +37,7 @@ class ComparativeAnalyticsState extends Equatable {
     contacts,
     firstNumber,
     secondNumber,
+    firstDisplayName,
+    secondDisplayName,
   ];
 }

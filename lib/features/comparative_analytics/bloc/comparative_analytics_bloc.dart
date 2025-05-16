@@ -22,7 +22,6 @@ class ComparativeAnalyticsBloc
     Emitter<ComparativeAnalyticsState> emit,
   ) async {
     emit(ComparativeAnalyticsState());
-
     try {
       final permissionStatus = await Permission.contacts.request();
       if (!permissionStatus.isGranted) {
@@ -85,14 +84,22 @@ class ComparativeAnalyticsBloc
       final firstNumber =
           prefs.getString("comparative_analytics_first_phone_number") ??
           contactsWithData[0]['phoneNumber']!;
+      final firstDisplayName =
+          prefs.getString('comparative_analytics_first_display_name') ??
+          contactsWithData[0]['displayName']!;
       final secondNumber =
           prefs.getString('comparative_analytics_second_phone_number') ??
           contactsWithData[1]['phoneNumber']!;
+      final secondDisplayName =
+          prefs.getString('comparative_analytics_second_display_name') ??
+          contactsWithData[1]['displayName']!;
 
       add(
         ComparativeAnalyticsCalculateEvent(
           firstPhoneNumber: firstNumber,
           secondPhoneNumber: secondNumber,
+          firstDisplayName: firstDisplayName,
+          secondDisplayName: secondDisplayName,
           contacts: contactsWithData,
         ),
       );
@@ -132,10 +139,20 @@ class ComparativeAnalyticsBloc
         "comparative_analytics_second_phone_number",
         event.secondPhoneNumber,
       );
+      await prefs.setString(
+        "comparative_analytics_first_display_name",
+        event.firstDisplayName,
+      );
+      await prefs.setString(
+        "comparative_analytics_second_display_name",
+        event.secondDisplayName,
+      );
 
       final comparisonResult = await _compareTwoNumbers(
         event.firstPhoneNumber,
         event.secondPhoneNumber,
+        event.firstDisplayName,
+        event.secondDisplayName,
       );
 
       getDisplayName(String phoneNumber) {
@@ -207,20 +224,36 @@ class ComparativeAnalyticsBloc
   List<CallLogEntry> _filterEntriesForNumber(
     Iterable<CallLogEntry> entries,
     String number,
+    String displayName,
   ) {
-    final cleanedNumber = number.replaceAll(' ', '');
-    return entries.where((entry) => entry.number == cleanedNumber).toList()
+    return entries
+        .where(
+          (entry) =>
+              entry.number == number.replaceAll(' ', '') ||
+              entry.name == displayName,
+        )
+        .toList()
       ..sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
   }
 
   Future<ComparisonResult> _compareTwoNumbers(
     String first,
     String second,
+    String firstDisplayName,
+    String secondDisplayName,
   ) async {
     final entries = await CallLog.query();
 
-    final firstCalls = _filterEntriesForNumber(entries, first);
-    final secondCalls = _filterEntriesForNumber(entries, second);
+    final firstCalls = _filterEntriesForNumber(
+      entries,
+      first,
+      firstDisplayName,
+    );
+    final secondCalls = _filterEntriesForNumber(
+      entries,
+      second,
+      secondDisplayName,
+    );
 
     if (firstCalls.isEmpty && secondCalls.isEmpty) {
       return ComparisonResult();

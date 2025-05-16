@@ -15,10 +15,12 @@ class ContactInsightsCalculateEvent extends ContactInsightsEvent {
   const ContactInsightsCalculateEvent({
     required this.contacts,
     required this.phoneNumber,
+    required this.displayName,
   });
   final String phoneNumber;
+  final String displayName;
   final List<Map<String, String>> contacts;
 
   @override
-  List<Object?> get props => [phoneNumber, contacts];
+  List<Object?> get props => [phoneNumber, displayName, contacts];
 }

@@ -81,10 +81,14 @@ class ContactInsightsBloc
       final selectedNumber =
           prefs.getString("contact_insights_selected_phone_number") ??
           contactsWithData[0]['phoneNumber']!;
+      final selectedDisplayName =
+          prefs.getString("contact_insights_selected_display_name") ??
+          contactsWithData[0]['phoneNumber']!;
 
       add(
         ContactInsightsCalculateEvent(
           phoneNumber: selectedNumber,
+          displayName: selectedDisplayName,
           contacts: contactsWithData,
         ),
       );
@@ -101,6 +105,10 @@ class ContactInsightsBloc
     await prefs.setString(
       "contact_insights_selected_phone_number",
       event.phoneNumber,
+    );
+    await prefs.setString(
+      "contact_insights_selected_display_name",
+      event.displayName,
     );
     emit(
       ContactInsightsState(
@@ -126,7 +134,8 @@ class ContactInsightsBloc
             entries
                 .where(
                   (entry) =>
-                      entry.number == event.phoneNumber.replaceAll(" ", ""),
+                      entry.number == event.phoneNumber.replaceAll(" ", "") ||
+                      entry.name == event.displayName,
                 )
                 .toList()
               ..sort((a, b) => a.timestamp!.compareTo(b.timestamp!));

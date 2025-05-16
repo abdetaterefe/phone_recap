@@ -101,10 +101,17 @@ class _ComparativeAnalyticsViewState extends State<ComparativeAnalyticsView> {
                               ),
                               initialSelection: state.firstNumber,
                               onSelected: (String? value) {
+                                var displayName =
+                                    state.contacts.firstWhere(
+                                      (contact) =>
+                                          contact["phoneNumber"] == value,
+                                    )["displayName"];
                                 context.read<ComparativeAnalyticsBloc>().add(
                                   ComparativeAnalyticsCalculateEvent(
                                     firstPhoneNumber: value ?? "",
                                     secondPhoneNumber: state.secondNumber,
+                                    firstDisplayName: displayName ?? "",
+                                    secondDisplayName: state.secondDisplayName,
                                     contacts: state.contacts,
                                   ),
                                 );
@@ -132,10 +139,17 @@ class _ComparativeAnalyticsViewState extends State<ComparativeAnalyticsView> {
                               ),
                               initialSelection: state.secondNumber,
                               onSelected: (String? value) {
+                                var displayName =
+                                    state.contacts.firstWhere(
+                                      (contact) =>
+                                          contact["phoneNumber"] == value,
+                                    )["displayName"];
                                 context.read<ComparativeAnalyticsBloc>().add(
                                   ComparativeAnalyticsCalculateEvent(
                                     firstPhoneNumber: state.firstNumber,
+                                    firstDisplayName: state.firstDisplayName,
                                     secondPhoneNumber: value ?? "",
+                                    secondDisplayName: displayName ?? "",
                                     contacts: state.contacts,
                                   ),
                                 );
