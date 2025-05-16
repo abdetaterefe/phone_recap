@@ -83,7 +83,7 @@ class ContactInsightsBloc
           contactsWithData[0]['phoneNumber']!;
       final selectedDisplayName =
           prefs.getString("contact_insights_selected_display_name") ??
-          contactsWithData[0]['phoneNumber']!;
+          contactsWithData[0]['displayName']!;
 
       add(
         ContactInsightsCalculateEvent(
