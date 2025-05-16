@@ -42,3 +42,5 @@ Allows you to compare your call statistics between different contacts, showing d
 ## Contributing
 
 Contributions are welcome! If you find a bug or have a suggestion, please open an issue or submit a pull request.
+
+If you notice any inaccuracies in the data analysis based on your call log, please create an issue describing the problem.
